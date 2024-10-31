@@ -1,0 +1,37 @@
+@import "../../../styles/variables.scss";
+
+.product {
+  padding: 60px 100px;
+
+  .back {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+  }
+
+  .product-container {
+    padding-top: $space-l;
+
+    display: flex;
+    gap: $space-xl;
+
+    .product-image {
+      width: 800px;
+      height: 800px;
+    }
+
+    .product-about {
+      display: flex;
+      flex-direction: column;
+      gap: $space-m;
+
+      .product-price {
+        margin: $space-xl 0;
+      }
+      .product-buttons {
+        display: flex;
+        gap: $space-xl;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+
+.button {
+  all: unset;
+  font-family: "Roboto", sans-serif;
+  height: 52px;
+  cursor: pointer;
+  background: $brand;
+  color: white;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  vertical-align: middle;
+  gap: 8px;
+  font-size: 18px;
+  line-height: 18px;
+
+  &:hover {
+    background: $brand-hover;
+  }
+
+  &.button-loading:hover {
+    background: $brand;
+  }
+
+  &:active {
+    background: $brand-active;
+  }
+
+  &.button-disabled {
+    cursor: default;
+    background: $brand-disabled !important;
+  }
+}
+
+.ml-auto {
+  margin-left: auto;
+}

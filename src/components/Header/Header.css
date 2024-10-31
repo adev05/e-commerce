@@ -1,0 +1,24 @@
+.header {
+  height: 88px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 100px;
+
+  background: white;
+
+  border-bottom: 2px solid rgba(243, 243, 243, 1);
+}
+
+.header-action {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-m);
+}
+
+.header-action > * {
+  cursor: pointer;
+}

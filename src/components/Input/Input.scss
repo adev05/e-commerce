@@ -1,0 +1,30 @@
+@import "../../styles/variables.scss";
+
+.input {
+  position: relative;
+  display: grid;
+
+  input {
+    all: unset;
+    background: white;
+    padding: 15px 12px;
+    line-height: 20px;
+    border: 1px solid white;
+
+    &:focus {
+      border: 1px solid $brand;
+    }
+  }
+
+  &:disabled {
+    color: $icon-secondary;
+  }
+
+  .input-icon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 13px;
+    right: 12px;
+  }
+}

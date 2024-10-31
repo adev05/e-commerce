@@ -1,0 +1,65 @@
+@import "../../styles/variables.scss";
+
+.text-title {
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 48px;
+}
+
+.text-button {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.text-p-20 {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.text-p-18 {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.text-p-16 {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.text-p-14 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.text-primary {
+  color: $text-primary;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.text-accent {
+  color: $text-accent;
+}
+
+.text-normal {
+  font-weight: normal;
+}
+
+.text-medium {
+  font-weight: 400;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-bold {
+  font-weight: bold;
+}

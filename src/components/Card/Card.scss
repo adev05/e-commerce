@@ -1,0 +1,63 @@
+@import "../../styles/variables.scss";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 24px;
+  cursor: pointer;
+  width: 348px;
+  background: white;
+
+  &:hover {
+    box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.card-image {
+  width: 348px;
+  height: 348px;
+  background: $card-image-bg;
+}
+
+.card-body {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &-bottom {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.card-caption {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: $text-secondary;
+}
+
+.card-title,
+.card-subtitle {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.card-title {
+  -webkit-line-clamp: 2;
+  height: 2lh;
+}
+
+.card-subtitle {
+  -webkit-line-clamp: 3;
+  height: 3lh;
+}

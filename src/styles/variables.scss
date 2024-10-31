@@ -1,0 +1,25 @@
+// Brand colors
+$brand: #518581;
+$brand-hover: #86aaa7;
+$brand-active: #487773;
+$brand-disabled: #d9d9d9;
+
+// Spacing
+$space-xl: 48px;
+$space-l: 32px;
+$space-m: 24px;
+$space-s: 16px;
+$space-xs: 12px;
+$space-xxs: 8px;
+
+// Text colors
+$text-primary: #000000;
+$text-secondary: #afadb5;
+$text-accent: $brand;
+
+// Icon colors
+$icon-primary: #000000;
+$icon-secondary: rgba(0, 0, 0, 0.2);
+$icon-accent: $brand;
+
+$card-image-bg: #d9d9d9;

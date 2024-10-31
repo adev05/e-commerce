@@ -1,0 +1,9 @@
+.search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  gap: 56px;
+
+  padding-top: var(--space-m);
+}
