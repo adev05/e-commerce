@@ -3,6 +3,7 @@
 .input {
   position: relative;
   display: grid;
+  margin-top: $space-m;
 
   input {
     all: unset;

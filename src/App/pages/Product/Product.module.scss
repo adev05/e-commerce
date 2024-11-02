@@ -1,4 +1,4 @@
-@import "../../../styles/variables.scss";
+@import "styles/variables";
 
 .product {
   padding: 60px 100px;
@@ -9,26 +9,26 @@
     gap: $space-xs;
   }
 
-  .product-container {
+  .product__container {
     padding-top: $space-l;
 
     display: flex;
     gap: $space-xl;
 
-    .product-image {
+    .product__image {
       width: 800px;
       height: 800px;
     }
 
-    .product-about {
+    .product__about {
       display: flex;
       flex-direction: column;
       gap: $space-m;
 
-      .product-price {
+      .product__price {
         margin: $space-xl 0;
       }
-      .product-buttons {
+      .product__buttons {
         display: flex;
         gap: $space-xl;
       }

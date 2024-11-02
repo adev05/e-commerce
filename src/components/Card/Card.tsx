@@ -35,12 +35,10 @@ const Card: React.FC<CardProps> = ({
       <img src={image} alt="card-img" className="card-image" />
       <div className="card-body">
         <div className="card-body-top">
-          {captionSlot ? (
+          {captionSlot && (
             <Text view="p-14" color="secondary">
               {captionSlot}
             </Text>
-          ) : (
-            ''
           )}
           <Text view="p-20" weight="medium" color="primary" className="card-title">
             {title}
@@ -50,12 +48,10 @@ const Card: React.FC<CardProps> = ({
           </Text>
         </div>
         <div className="card-body-bottom">
-          {contentSlot ? (
+          {contentSlot && (
             <Text view="p-18" weight="bold" color="primary">
               {contentSlot}
             </Text>
-          ) : (
-            ''
           )}
           {actionSlot && <div className="ml-auto">{actionSlot}</div>}
         </div>

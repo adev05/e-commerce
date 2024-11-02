@@ -1,12 +1,12 @@
 import Search from './components/Search';
 import Main from './components/Main';
 import Filter from './components/Filter';
-import './Products.scss';
 import ProductList from './components/ProductList';
+import s from './Catalog.module.scss';
 
-const Products = () => {
+const Catalog = () => {
   return (
-    <div className="products">
+    <div className={s.catalog}>
       <Main />
       <Search />
       <Filter />
@@ -15,4 +15,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Catalog;
