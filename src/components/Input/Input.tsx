@@ -1,5 +1,7 @@
 import React from 'react';
-import './Input.scss';
+import cn from 'classnames';
+import s from './Input.module.scss';
+
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
   /** Значение поля */
   value: string;
@@ -10,16 +12,19 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ value, onChange, afterSlot, className, ...props }, ref) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
-    };
+  ({ value, onChange, className, afterSlot, ...props }, ref) => {
+    const handleChange = React.useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>): void => {
+        onChange(event.target.value);
+      },
+      [onChange],
+    );
 
     return (
-      <div className={`input${className ? ' ' + className : ''}`}>
-        <input ref={ref} value={value} type="text" onChange={handleChange} {...props} />
-        {afterSlot && <div className="input-icon">{afterSlot}</div>}
-      </div>
+      <label className={cn(s.input, props.disabled && s.input_disabled, className)}>
+        <input {...props} ref={ref} type="text" value={value} className={s.input__field} onChange={handleChange} />
+        {afterSlot && <div className={s.input__after}>{afterSlot}</div>}
+      </label>
     );
   },
 );

@@ -1,7 +1,7 @@
-export const NAVBAR = [
+export const navbarUrls = [
   {
     name: 'Products',
-    path: '/products',
+    path: '/catalog',
   },
   {
     name: 'Categories',

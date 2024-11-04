@@ -1,13 +1,14 @@
-import ArrowDownIcon from 'components/Icons/ArrowDownIcon';
-import Input from 'components/Input';
+import MultiDropdown from '../../../../../components/MultiDropdown';
+import s from './Filter.module.scss';
 
 const Filter = () => {
   return (
-    <Input
-      value=""
-      onChange={() => console.log('onChange')}
-      placeholder="Filter"
-      afterSlot={<ArrowDownIcon color="secondary" />}
+    <MultiDropdown
+      className={s.filter}
+      options={[]}
+      value={[]}
+      onChange={() => console.log('multidropdown changed')}
+      getTitle={() => 'Filter'}
     />
   );
 };

@@ -1,5 +1,6 @@
+import cn from 'classnames';
 import * as React from 'react';
-import './Text.scss';
+import s from './Text.module.scss';
 
 export type TextProps = {
   /** Дополнительный класс */
@@ -18,124 +19,21 @@ export type TextProps = {
   maxLines?: number;
 };
 
-const Text: React.FC<TextProps> = ({ className, view, tag, weight, children, color, maxLines }) => {
-  if (tag === 'h1') {
-    return (
-      <h1
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h1>
-    );
-  }
-  if (tag === 'h2') {
-    return (
-      <h2
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h2>
-    );
-  }
-  if (tag === 'h3') {
-    return (
-      <h3
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h3>
-    );
-  }
-  if (tag === 'h4') {
-    return (
-      <h4
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h4>
-    );
-  }
-  if (tag === 'h5') {
-    return (
-      <h5
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h5>
-    );
-  }
-  if (tag === 'h6') {
-    return (
-      <h6
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </h6>
-    );
-  }
-  if (tag === 'div') {
-    return (
-      <div
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </div>
-    );
-  }
-  if (tag === 'p') {
-    return (
-      <p
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </p>
-    );
-  }
-  if (tag === 'span') {
-    return (
-      <span
-        className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-          color ? ' text-' + color : ' text-primary'
-        }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-        style={maxLines ? { WebkitLineClamp: maxLines } : {}}
-      >
-        {children}
-      </span>
-    );
-  }
+const Text: React.FC<TextProps> = ({ className, weight, tag: Tag = 'p', view = 'p-14', color, children, maxLines }) => {
   return (
-    <p
-      className={`${className ? className : ''}${view ? ' text-' + view : ''}${
-        color ? ' text-' + color : ' text-primary'
-      }${maxLines ? ' text-line-clamp' : ''}${weight ? ' text-' + weight : ''}`}
-      style={maxLines ? { WebkitLineClamp: maxLines } : {}}
+    <Tag
+      className={cn(
+        s.text,
+        s[`text_view-${view}`],
+        weight && s[`text_weight-${weight}`],
+        color && s[`text_color-${color}`],
+        maxLines && s[`text_multi-ellipsis`],
+        className,
+      )}
+      style={{ WebkitLineClamp: maxLines }}
     >
       {children}
-    </p>
+    </Tag>
   );
 };
 

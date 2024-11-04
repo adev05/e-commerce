@@ -31,6 +31,9 @@ const Product: React.FC = () => {
 
         if (result.data) {
           setCard(result.data);
+          const arrayString = result.data.images.join(',');
+          const urls = JSON.parse(`[${arrayString}]`);
+          result.data.images = urls;
         } else {
           setError('Invalid data format');
         }

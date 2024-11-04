@@ -1,20 +1,21 @@
 import { Link, useLocation } from 'react-router-dom';
-import { NAVBAR } from '../../config/navbar';
-import './Navbar.scss';
 import Text from '../Text';
+import s from './Navbar.module.scss';
+import { navbarUrls } from 'config/navbarUrls';
+import cn from 'classnames';
 
 const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="navbar">
-      {NAVBAR.map((item, index) => (
-        <Link to={item.path} className="navbar-element" key={index}>
+    <nav className={s.navbar}>
+      {navbarUrls.map((item, index) => (
+        <Link to={item.path} key={index}>
           <Text
+            tag="span"
             view="p-18"
-            weight={location.pathname == item.path ? 'semibold' : 'normal'}
             color={location.pathname == item.path ? 'accent' : 'primary'}
-            className={location.pathname == item.path ? 'navbar-active' : ''}
+            className={cn(location.pathname == item.path && s.navbar__item_active)}
           >
             {item.name}
           </Text>

@@ -1,4 +1,4 @@
-@import "styles/variables";
+@use "styles/variables" as *;
 
 .main {
   display: flex;
@@ -7,5 +7,5 @@
   flex-direction: column;
   gap: $space-m;
   text-align: center;
-  margin: 0 auto;
+  margin: 100px auto;
 }

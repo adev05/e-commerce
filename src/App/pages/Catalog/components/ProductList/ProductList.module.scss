@@ -1,19 +1,34 @@
-@import "styles/variables.scss";
+@use "styles/variables" as *;
 
 .product__list {
-  padding-top: $space-xl;
-}
+  margin-top: $space-xl;
+  --l-columns-count: 1;
 
-.title {
-  display: flex;
-  align-items: center;
-  gap: $space-m;
-}
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $space-m;
+    margin: $space-l 0;
+  }
 
-.cards {
-  padding-top: $space-l;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(348px, 1fr));
-  justify-content: space-between;
-  gap: 30px;
+  &__cards {
+    padding-top: $space-l;
+    display: grid;
+    grid-template-columns: repeat(var(--l-columns-count), 1fr);
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  @media (min-width: 768px) {
+    --l-columns-count: 2;
+  }
+  @media (min-width: 1024px) {
+    --l-columns-count: 3;
+  }
+  @media (min-width: 1280px) {
+    --l-columns-count: 4;
+  }
+  @media (min-width: 1536px) {
+    --l-columns-count: 5;
+  }
 }

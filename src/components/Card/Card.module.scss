@@ -1,0 +1,63 @@
+@use "styles/variables" as *;
+
+.card {
+  cursor: pointer;
+  width: 100%;
+  background-color: $card-bg;
+  transition: box-shadow 0.3s ease;
+  border-radius: $card-border-radius;
+  overflow: hidden;
+  border: 1px solid $card-border;
+
+  &__header {
+    background-color: $card-image-bg;
+    position: relative;
+
+    &::after {
+      content: "";
+      padding-top: 100%;
+      display: block;
+    }
+  }
+
+  &__header-src {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__body {
+    padding: $space-xl $space-xs;
+  }
+
+  &__caption {
+    margin-bottom: $space-xxs;
+  }
+
+  &__title {
+    height: 2lh;
+  }
+
+  &__subtitle {
+    margin-top: $space-xxs;
+    height: 3lh;
+  }
+
+  &__footer {
+    align-items: center;
+    display: flex;
+    margin-top: $space-l;
+  }
+
+  &__action {
+    margin-left: auto;
+    padding-left: $space-xxs;
+  }
+
+  &:hover {
+    box-shadow: $shadow;
+  }
+}

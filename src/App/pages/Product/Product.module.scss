@@ -1,4 +1,4 @@
-@import "styles/variables";
+@use "styles/variables" as *;
 
 .product {
   padding: 60px 100px;
@@ -18,6 +18,8 @@
     .product__image {
       width: 800px;
       height: 800px;
+
+      border-radius: $border-radius;
     }
 
     .product__about {

@@ -1,0 +1,20 @@
+@use "styles/variables" as *;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-s 100px;
+  background: white;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
+  &__icons {
+    display: flex;
+    align-items: center;
+    gap: $space-m;
+
+    > * {
+      cursor: pointer;
+    }
+  }
+}

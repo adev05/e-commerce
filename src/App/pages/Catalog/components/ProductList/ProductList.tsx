@@ -26,7 +26,7 @@ export type CardType = {
   };
 };
 
-const LIMIT = 12;
+const LIMIT = 15;
 
 const ProductList = () => {
   const [cards, setCards] = useState<CardType[]>([]);
@@ -52,10 +52,20 @@ const ProductList = () => {
           }),
         ]);
 
+        if (cardsResult.status !== 200 || lengthResult.status !== 200) {
+          throw new Error('Failed to fetch data');
+        }
+
         if (cardsResult.data) {
           setCards(cardsResult.data);
+          cardsResult.data.map((card: CardType) => {
+            const arrayString = card.images.join(',');
+            const urls = JSON.parse(`[${arrayString}]`);
+            card.images = urls;
+          });
         } else {
           setError('Invalid data format for cards');
+          throw new Error('Invalid data format for cards');
         }
 
         if (lengthResult.data) {
@@ -64,6 +74,7 @@ const ProductList = () => {
           setTotalPages(Math.ceil(length / LIMIT));
         } else {
           setError('Invalid data format for cards length');
+          throw new Error('Invalid data format for cards length');
         }
       } catch (error) {
         setError('Error fetching data');
@@ -91,13 +102,13 @@ const ProductList = () => {
 
   return (
     <div className={s.product__list}>
-      <div className={s.title}>
+      <div className={s.product__list__title}>
         <Text view="title">Total Product</Text>
         <Text view="p-20" weight="bold" color="accent">
           {cardsLength}
         </Text>
       </div>
-      <div className={s.cards}>
+      <div className={s.product__list__cards}>
         {cards.map((card) => (
           <Link to={routerUrls.productDetail.create(card.id)} key={card.id}>
             <Card

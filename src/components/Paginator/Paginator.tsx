@@ -1,12 +1,14 @@
 import React from 'react';
 import Button from '../Button';
-import './Paginator.scss';
-interface PaginatorProps {
+import s from './Paginator.module.scss';
+import cn from 'classnames';
+
+type PaginatorProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (pageNumber: number) => void;
   maxVisiblePages?: number;
-}
+};
 
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
   const pageNumbers: (number | string)[] = [];
@@ -46,8 +48,8 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
 
   return (
     <nav>
-      <ul className="pagination">
-        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+      <ul className={s.paginator}>
+        <li className={cn(s['paginator-item'], currentPage === 1 && s['page-item_disabled'])}>
           <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
             &laquo;
           </Button>
@@ -55,7 +57,10 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
         {pageNumbers.map((number, index) => (
           <li
             key={index}
-            className={`page-item ${typeof number === 'number' && currentPage === number ? 'active' : ''}`}
+            className={cn(
+              s['paginator-item'],
+              typeof number === 'number' && number === currentPage && s['page-item_active'],
+            )}
           >
             {typeof number === 'number' ? (
               <Button onClick={() => onPageChange(number)}>{number}</Button>
@@ -64,7 +69,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
             )}
           </li>
         ))}
-        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+        <li className={cn(s['paginator-item'], currentPage === totalPages && s['page-item_disabled'])}>
           <Button onClick={handleNextPage} disabled={currentPage === totalPages}>
             &raquo;
           </Button>

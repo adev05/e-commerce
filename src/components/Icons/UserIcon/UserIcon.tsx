@@ -1,22 +1,13 @@
-import * as React from "react";
-import Icon, { IconProps } from "../Icon";
+import * as React from 'react';
+import Icon, { IconProps } from '../Icon';
 
 const UserIcon: React.FC<IconProps> = (props) => {
   return (
-    <Icon viewBox="0 0 30 30" {...props}>
+    <Icon viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" {...props}>
       <path
-        d="M15 15C18.4518 15 21.25 12.2018 21.25 8.75C21.25 5.29822 18.4518 2.5 15 2.5C11.5482 2.5 8.75 5.29822 8.75 8.75C8.75 12.2018 11.5482 15 15 15Z"
-        stroke="#151411"
-        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-      <path
-        d="M25.7374 27.5C25.7374 22.6625 20.9249 18.75 14.9999 18.75C9.07495 18.75 4.26245 22.6625 4.26245 27.5"
-        stroke="#151411"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
       />
     </Icon>
   );

@@ -1,0 +1,38 @@
+@use "styles/variables" as *;
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xxs;
+  margin-top: $space-xl;
+
+  &-item {
+    list-style-type: none;
+  }
+}
+
+// .page-item {
+//   list-style-type: none;
+
+//   button {
+//     background: transparent;
+//     color: black;
+
+//     &:not(:disabled):hover {
+//       color: white;
+//     }
+//   }
+
+//   &.active button {
+//     background: $brand;
+//     color: white;
+//   }
+// }
+
+// .page-link {
+//   padding: 0 20px;
+//   height: 100%;
+//   display: flex;
+//   align-items: center;
+// }

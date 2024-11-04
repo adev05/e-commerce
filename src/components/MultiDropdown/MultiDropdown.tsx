@@ -1,7 +1,9 @@
-// components/MultiDropdown.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import s from './MultiDropdown.module.scss';
+import cn from 'classnames';
 import Input from '../Input';
 import ArrowDownIcon from '../Icons/ArrowDownIcon';
+import Text from '../Text';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -26,56 +28,95 @@ export type MultiDropdownProps = {
 };
 
 const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value, onChange, disabled, getTitle }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [filter, setFilter] = useState('');
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = React.useRef<HTMLInputElement>(null);
+  const ref = React.useRef<HTMLInputElement>(null);
+  const [filter, setFilter] = React.useState('');
+  const [isOpened, setIsOpened] = React.useState(false);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+  const open = () => {
+    setIsOpened(true);
+  };
+
+  React.useEffect(() => {
+    const handlerClick = (e: MouseEvent) => {
+      if (!wrapperRef.current?.contains(e.target as HTMLElement)) {
+        setIsOpened(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('click', handlerClick);
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('click', handlerClick);
     };
   }, []);
 
-  const handleOptionClick = (option: Option) => {
-    setFilter('');
-    const isSelected = value.some((item) => item.key === option.key);
-    const newValue = isSelected ? value.filter((item) => item.key !== option.key) : [...value, option];
-    onChange(newValue);
-  };
+  React.useEffect(() => {
+    if (isOpened) {
+      setFilter('');
+    }
+  }, [isOpened]);
 
-  const filteredOptions = options.filter((option) => option.value.toLowerCase().includes(filter.toLowerCase()));
+  const title = React.useMemo(() => getTitle(value), [getTitle, value]);
+
+  const isEmpty = value.length === 0;
+
+  const filteredOptions = React.useMemo(() => {
+    const str = filter.toLocaleLowerCase();
+
+    return options.filter((o) => o.value.toLocaleLowerCase().indexOf(str) === 0);
+  }, [filter, options]);
+
+  const selectedKeysSet = React.useMemo<Set<Option['key']>>(() => new Set(value.map(({ key }) => key)), [value]);
+
+  const onSelect = React.useCallback(
+    (option: Option) => {
+      if (disabled) {
+        return;
+      }
+
+      if (selectedKeysSet.has(option.key)) {
+        onChange([...value].filter(({ key }) => key !== option.key));
+      } else {
+        onChange([...value, option]);
+      }
+
+      ref.current?.focus();
+    },
+    [disabled, onChange, value, selectedKeysSet],
+  );
+
+  const opened = isOpened && !disabled;
 
   return (
-    <div className={`multi-dropdown${className ? ' ' + className : ''}`} ref={dropdownRef}>
+    <div ref={wrapperRef} className={cn(s['multi-dropdown'], className)}>
       <Input
-        value={isOpen ? filter : value.length === 0 ? '' : getTitle(value)}
-        onChange={setFilter}
-        onClick={() => setIsOpen(true)}
+        onClick={open}
+        ref={ref}
         disabled={disabled}
+        placeholder={title}
+        className={s['multi-dropdown__field']}
+        value={opened ? filter : isEmpty ? '' : title}
+        onChange={setFilter}
         afterSlot={<ArrowDownIcon color="secondary" />}
-        placeholder={getTitle(value)}
-        ref={inputRef}
       />
-      {!disabled && isOpen && (
-        <ul className="dropdown-options">
+      {opened && (
+        <div className={s['multi-dropdown__options']}>
           {filteredOptions.map((option) => (
-            <li
+            <button
+              className={cn(
+                s['multi-dropdown__option'],
+                selectedKeysSet.has(option.key) && s['multi-dropdown__option_selected'],
+              )}
               key={option.key}
-              className={`dropdown-option ${value.some((item) => item.key === option.key) ? 'selected' : ''}`}
-              onClick={() => handleOptionClick(option)}
+              onClick={() => {
+                onSelect(option);
+              }}
             >
-              {option.value}
-            </li>
+              <Text view="p-16">{option.value}</Text>
+            </button>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
