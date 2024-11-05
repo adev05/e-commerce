@@ -31,9 +31,9 @@ const Product: React.FC = () => {
 
         if (result.data) {
           setCard(result.data);
-          const arrayString = result.data.images.join(',');
-          const urls = JSON.parse(`[${arrayString}]`);
-          result.data.images = urls;
+          // const arrayString = result.data.images.join(',');
+          // const urls = JSON.parse(`[${arrayString}]`);
+          // result.data.images = urls;
         } else {
           setError('Invalid data format');
         }
@@ -58,7 +58,7 @@ const Product: React.FC = () => {
 
   return (
     <div className={s.product}>
-      <Link to={routerUrls.root.mask}>
+      <Link to={routerUrls.catalog.mask}>
         <div className={s.back}>
           <ArrowLeftIcon />
           <Text view="p-20">Назад</Text>

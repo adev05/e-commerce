@@ -4,7 +4,7 @@ import Filter from './components/Filter';
 import ProductList from './components/ProductList';
 import s from './Catalog.module.scss';
 
-const Catalog = () => {
+const Catalog: React.FC = () => {
   return (
     <div className={s.catalog}>
       <Main />

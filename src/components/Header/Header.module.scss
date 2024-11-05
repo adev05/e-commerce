@@ -1,12 +1,14 @@
 @use "styles/variables" as *;
 
 .header {
+  --l-padding-x: 16px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $space-s 100px;
+  padding: $space-s var(--l-padding-x);
   background: white;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  gap: $space-m;
 
   &__icons {
     display: flex;
@@ -16,5 +18,9 @@
     > * {
       cursor: pointer;
     }
+  }
+
+  @media (min-width: 768px) {
+    --l-padding-x: 48px;
   }
 }

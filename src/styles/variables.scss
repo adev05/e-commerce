@@ -29,7 +29,7 @@ $text-accent: $brand;
 $input-text: #000;
 $input-bg: #fff;
 $input-placeholder: rgba(15, 23, 42, 0.4);
-$input-border: rgba(15, 23, 42, 0.08);
+$input-border: rgb(15 23 42 / 0.1);
 $input-bg-focus: #fff;
 $input-border-focus: $brand;
 $input-text-focus: #000;
@@ -49,7 +49,7 @@ $checkbox-check-disabled: rgba(#000, 0.2);
 
 $card-bg: #fff;
 $card-image-bg: #d9d9d9;
-$card-border: rgba(15, 23, 42, 0.08);
+$card-border: rgb(15 23 42 / 0.1);
 $card-border-radius: 12px;
 
 $shadow: 0px 4px 10px 0px rgba(#000, 0.25);

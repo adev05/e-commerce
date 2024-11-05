@@ -1,8 +1,8 @@
 import Logotype from '../Logotype';
 import Navbar from '../Navbar';
 import BagIcon from '../Icons/BagIcon';
-import UserIcon from '../Icons/UserIcon';
 import s from './Header.module.scss';
+import HeartIcon from '../Icons/HeartIcon';
 
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
       <Navbar />
       <div className={s.header__icons}>
         <BagIcon width={24} height={24} />
-        <UserIcon width={24} height={24} />
+        <HeartIcon width={24} height={24} />
       </div>
     </header>
   );

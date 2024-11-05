@@ -58,11 +58,11 @@ const ProductList = () => {
 
         if (cardsResult.data) {
           setCards(cardsResult.data);
-          cardsResult.data.map((card: CardType) => {
-            const arrayString = card.images.join(',');
-            const urls = JSON.parse(`[${arrayString}]`);
-            card.images = urls;
-          });
+          // cardsResult.data.map((card: CardType) => {
+          //   const arrayString = card.images.join(',');
+          //   const urls = JSON.parse(`[${arrayString}]`);
+          //   card.images = urls;
+          // });
         } else {
           setError('Invalid data format for cards');
           throw new Error('Invalid data format for cards');
