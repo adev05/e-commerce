@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Button from '../Button';
 import s from './Paginator.module.scss';
 import cn from 'classnames';
@@ -11,40 +11,44 @@ type PaginatorProps = {
 };
 
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
-  const pageNumbers: (number | string)[] = [];
+  const pageNumbers = useMemo(() => {
+    const numbers: (number | string)[] = [];
 
-  if (totalPages <= maxVisiblePages) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        numbers.push(i);
+      }
+    } else {
+      const leftBound = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      const rightBound = Math.min(totalPages, leftBound + maxVisiblePages - 1);
+
+      if (leftBound > 1) {
+        numbers.push(1, '...');
+      }
+
+      for (let i = leftBound; i <= rightBound; i++) {
+        numbers.push(i);
+      }
+
+      if (rightBound < totalPages) {
+        numbers.push('...', totalPages);
+      }
     }
-  } else {
-    const leftBound = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const rightBound = Math.min(totalPages, leftBound + maxVisiblePages - 1);
 
-    if (leftBound > 1) {
-      pageNumbers.push(1, '...');
-    }
+    return numbers;
+  }, [currentPage, totalPages, maxVisiblePages]);
 
-    for (let i = leftBound; i <= rightBound; i++) {
-      pageNumbers.push(i);
-    }
-
-    if (rightBound < totalPages) {
-      pageNumbers.push('...', totalPages);
-    }
-  }
-
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
-  };
+  }, [currentPage, onPageChange]);
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
-  };
+  }, [currentPage, totalPages, onPageChange]);
 
   return (
     <nav>
@@ -79,4 +83,4 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
   );
 };
 
-export default Paginator;
+export default React.memo(Paginator);

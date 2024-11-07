@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ import Button from 'components/Button';
 import { CardType } from '../Catalog/components/ProductList';
 import { routerUrls } from 'config/routes';
 import { apiUrls } from 'config/apiUrls';
+import ProductSkeleton from './components/ProductSkeleton';
 
 const Product: React.FC = () => {
   const { id } = useParams();
@@ -26,14 +27,11 @@ const Product: React.FC = () => {
 
       try {
         const result = await axios({
-          url: `${apiUrls.baseUrl}${apiUrls.products.detail(id)}`,
+          url: `${apiUrls.baseUrl}${apiUrls.products.detail(Number(id))}`,
         });
 
         if (result.data) {
           setCard(result.data);
-          // const arrayString = result.data.images.join(',');
-          // const urls = JSON.parse(`[${arrayString}]`);
-          // result.data.images = urls;
         } else {
           setError('Invalid data format');
         }
@@ -49,31 +47,44 @@ const Product: React.FC = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <ProductSkeleton />;
   }
 
   if (error) {
-    return <div>Error {error}</div>;
+    return <Navigate to={routerUrls.notFound.create()} replace />;
   }
 
   return (
     <div className={s.product}>
       <Link to={routerUrls.catalog.mask}>
-        <div className={s.back}>
+        <div className={s['product__return-back']}>
           <ArrowLeftIcon />
-          <Text view="p-20">Назад</Text>
+          <Text view="p-20" tag="h4" color="primary">
+            Назад
+          </Text>
         </div>
       </Link>
 
       <div className={s.product__container}>
-        <img src={card?.images[0]} alt="card-img" className={s.product__image} />
+        {card?.images.length ? (
+          <img src={card?.images[0]} alt="card-img" className={s.product__image} />
+        ) : (
+          <div className={s['product__image-placeholder']}></div>
+        )}
         <div className={s.product__about}>
-          <Text view="title">{card?.title}</Text>
-          <Text view="p-20" color="secondary">
-            {card?.description}
-          </Text>
-          <Text view="title" className={s.product__price}>{`$${card?.price}`}</Text>
-          <div className={s.product__buttons}>
+          {card?.title && (
+            <Text view="title" tag="h1" color="primary">
+              {card.title}
+            </Text>
+          )}
+          {card?.description && (
+            <Text view="p-20" tag="h4" color="secondary">
+              {card.description}
+            </Text>
+          )}
+          {card?.price && <Text view="title" tag="h1" className={s.product__price}>{`$${card?.price}`}</Text>}
+
+          <div className={s['product__buttons-container']}>
             <Button>Buy now</Button>
             <Button>Add to cart</Button>
           </div>

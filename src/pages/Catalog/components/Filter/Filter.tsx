@@ -1,4 +1,4 @@
-import MultiDropdown from '../../../../../components/MultiDropdown';
+import MultiDropdown from 'components/MultiDropdown';
 import s from './Filter.module.scss';
 
 const Filter: React.FC = () => {

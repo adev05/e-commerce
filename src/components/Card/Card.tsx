@@ -40,7 +40,7 @@ const Card: React.FC<CardProps> = ({
 
       <div className={s.card__body}>
         {captionSlot && (
-          <Text className={s.card__caption} view="p-14" weight="medium" color="secondary">
+          <Text className={s.card__caption} view="p-14" tag="span" weight="medium" color="secondary">
             {captionSlot}
           </Text>
         )}

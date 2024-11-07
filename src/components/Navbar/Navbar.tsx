@@ -4,7 +4,7 @@ import s from './Navbar.module.scss';
 import { navbarUrls } from 'config/navbarUrls';
 import cn from 'classnames';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const location = useLocation();
 
   return (
@@ -12,7 +12,7 @@ const Navbar = () => {
       {navbarUrls.map((item, index) => (
         <Link to={item.path} key={index}>
           <Text
-            tag="span"
+            tag="p"
             view="p-18"
             color={location.pathname == item.path ? 'accent' : 'primary'}
             className={cn(s['navbar__item'], location.pathname == item.path && s['navbar__item_active'])}

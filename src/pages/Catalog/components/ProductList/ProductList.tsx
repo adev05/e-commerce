@@ -8,6 +8,7 @@ import Paginator from 'components/Paginator';
 import { Link } from 'react-router-dom';
 import { routerUrls } from 'config/routes';
 import { apiUrls } from 'config/apiUrls';
+import CardSkeleton from 'components/CardSkeleton';
 
 export type CardType = {
   id: number;
@@ -28,7 +29,7 @@ export type CardType = {
 
 const LIMIT = 15;
 
-const ProductList = () => {
+const ProductList: React.FC = () => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [cardsLength, setCardsLength] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
@@ -58,11 +59,6 @@ const ProductList = () => {
 
         if (cardsResult.data) {
           setCards(cardsResult.data);
-          // cardsResult.data.map((card: CardType) => {
-          //   const arrayString = card.images.join(',');
-          //   const urls = JSON.parse(`[${arrayString}]`);
-          //   card.images = urls;
-          // });
         } else {
           setError('Invalid data format for cards');
           throw new Error('Invalid data format for cards');
@@ -93,7 +89,23 @@ const ProductList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={s['product-list']}>
+        <div className={s['product-list__title']}>
+          <Text view="title" tag="h1">
+            Total Product
+          </Text>
+          <Text view="p-20" tag="h4" weight="bold" color="accent">
+            {cardsLength}
+          </Text>
+        </div>
+        <div className={s['product-list__cards']}>
+          {[...Array(LIMIT)].map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -101,14 +113,17 @@ const ProductList = () => {
   }
 
   return (
-    <div className={s.product__list}>
-      <div className={s.product__list__title}>
-        <Text view="title">Total Product</Text>
-        <Text view="p-20" weight="bold" color="accent">
+    <div className={s['product-list']}>
+      <div className={s['product-list__title']}>
+        <Text view="title" tag="h1">
+          Total Product
+        </Text>
+        <Text view="p-20" tag="h4" weight="bold" color="accent">
           {cardsLength}
         </Text>
       </div>
-      <div className={s.product__list__cards}>
+
+      <div className={s['product-list__cards']}>
         {cards.map((card) => (
           <Link to={routerUrls.productDetail.create(card.id)} key={card.id}>
             <Card

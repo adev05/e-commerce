@@ -4,7 +4,7 @@ import BagIcon from '../Icons/BagIcon';
 import s from './Header.module.scss';
 import HeartIcon from '../Icons/HeartIcon';
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <header className={s.header}>
       <Logotype />
