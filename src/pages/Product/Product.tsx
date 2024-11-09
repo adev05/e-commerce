@@ -1,57 +1,50 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import { Link, useParams } from 'react-router-dom';
 import s from './Product.module.scss';
-
 import ArrowLeftIcon from 'components/Icons/ArrowLeftIcon';
-
 import Text from 'components/Text';
 import Button from 'components/Button';
-
-import { CardType } from '../Catalog/components/ProductList';
-import { routerUrls } from 'config/routes';
-import { apiUrls } from 'config/apiUrls';
-import ProductSkeleton from './components/ProductSkeleton';
+import { routerUrls } from 'config/routerUrls';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import ProductStore from 'store/ProductStore';
+import React from 'react';
+import { Meta } from 'utils/meta';
 
 const Product: React.FC = () => {
   const { id } = useParams();
-  const [card, setCard] = useState<CardType>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCard = async () => {
-      setLoading(true);
-      setError(null);
+  const productStore = useLocalObservable(() => new ProductStore());
 
-      try {
-        const result = await axios({
-          url: `${apiUrls.baseUrl}${apiUrls.products.detail(Number(id))}`,
-        });
+  React.useEffect(() => {
+    productStore.getProduct(Number(id));
+  }, [productStore, id]);
 
-        if (result.data) {
-          setCard(result.data);
-        } else {
-          setError('Invalid data format');
-        }
-      } catch (error) {
-        setError('Error fetching cards');
-        console.error('Error fetching cards:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (productStore.meta === Meta.loading) {
+    return (
+      <div className={s.product}>
+        <div className={s['product__return-back']}>
+          <ArrowLeftIcon />
+          <Text view="p-20" tag="h4" color="primary">
+            Назад
+          </Text>
+        </div>
 
-    fetchCard();
-  }, [id]);
+        <div className={s.product__container}>
+          <div className={s['product__image-placeholder']}></div>
+          <div className={s.product__about}>
+            <div className={s['product-skeleton__title']}></div>
+            <div className={s['product-skeleton__description']}></div>
+            <div className={s['product-skeleton__description']}></div>
+            <div className={s['product-skeleton__description']}></div>
+            <div className={s['product-skeleton__price']}></div>
 
-  if (loading) {
-    return <ProductSkeleton />;
-  }
-
-  if (error) {
-    return <Navigate to={routerUrls.notFound.create()} replace />;
+            <div className={s['product__buttons-container']}>
+              <Button>Buy now</Button>
+              <Button>Add to cart</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -66,23 +59,25 @@ const Product: React.FC = () => {
       </Link>
 
       <div className={s.product__container}>
-        {card?.images.length ? (
-          <img src={card?.images[0]} alt="card-img" className={s.product__image} />
+        {productStore.product?.images.length ? (
+          <img src={productStore.product?.images[0]} alt="card-img" className={s.product__image} />
         ) : (
           <div className={s['product__image-placeholder']}></div>
         )}
         <div className={s.product__about}>
-          {card?.title && (
+          {productStore.product?.title && (
             <Text view="title" tag="h1" color="primary">
-              {card.title}
+              {productStore.product.title}
             </Text>
           )}
-          {card?.description && (
+          {productStore.product?.description && (
             <Text view="p-20" tag="h4" color="secondary">
-              {card.description}
+              {productStore.product.description}
             </Text>
           )}
-          {card?.price && <Text view="title" tag="h1" className={s.product__price}>{`$${card?.price}`}</Text>}
+          {productStore.product?.price && (
+            <Text view="title" tag="h1" className={s.product__price}>{`$${productStore.product?.price}`}</Text>
+          )}
 
           <div className={s['product__buttons-container']}>
             <Button>Buy now</Button>
@@ -94,4 +89,4 @@ const Product: React.FC = () => {
   );
 };
 
-export default Product;
+export default observer(Product);

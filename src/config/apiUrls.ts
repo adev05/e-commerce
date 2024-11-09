@@ -4,4 +4,7 @@ export const apiUrls = {
     list: (offset: number, limit: number) => `/products?offset=${offset}&limit=${limit}`,
     detail: (id: number) => `/products/${id}`,
   },
+  categories: {
+    list: () => '/categories',
+  },
 };
