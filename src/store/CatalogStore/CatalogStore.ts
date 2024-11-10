@@ -13,7 +13,16 @@ import {
 import rootStore from 'store/RootStore';
 import { Option } from 'components/MultiDropdown';
 
-type PrivateFields = '_list' | '_meta' | '_length' | '_search' | '_categories' | '_included';
+type PrivateFields =
+  | '_list'
+  | '_meta'
+  | '_length'
+  | '_search'
+  | '_categories'
+  | '_included'
+  | '_categoryId'
+  | '_currentPage'
+  | '_totalPages';
 
 export default class CatalogStore {
   private _list: CollectionModel<number, ProductItemModel> = getInitialCollectionModel();
@@ -22,6 +31,10 @@ export default class CatalogStore {
   private _search: string | null = null;
   private _categories: CategoryItemModel[] = [];
   private _included: Option[] = [];
+  private _categoryId: string | null = null;
+
+  private _currentPage: number = 1;
+  private _totalPages: number = 1;
 
   constructor() {
     makeObservable<CatalogStore, PrivateFields>(this, {
@@ -31,6 +44,9 @@ export default class CatalogStore {
       _search: observable.ref,
       _categories: observable.ref,
       _included: observable.ref,
+      _categoryId: observable.ref,
+      _currentPage: observable.ref,
+      _totalPages: observable.ref,
 
       list: computed,
       meta: computed,
@@ -38,6 +54,9 @@ export default class CatalogStore {
       search: computed,
       options: computed,
       included: computed,
+      categoryId: computed,
+      totalPages: computed,
+      currentPage: computed,
 
       getProducts: action.bound,
       getLength: action.bound,
@@ -45,6 +64,8 @@ export default class CatalogStore {
 
       setSearch: action.bound,
       setIncluded: action.bound,
+      setCategoryId: action.bound,
+      setCurrentPage: action.bound,
     });
   }
 
@@ -72,12 +93,36 @@ export default class CatalogStore {
     return this._included;
   }
 
-  setSearch(search: string) {
+  get categoryId(): string | null {
+    return this._categoryId;
+  }
+
+  get totalPages(): number {
+    return this._totalPages;
+  }
+
+  get currentPage(): number {
+    return this._currentPage;
+  }
+
+  setSearch(search: string | null) {
     this._search = search;
   }
 
   setIncluded(value: Option[]) {
     this._included = value;
+  }
+
+  setCategoryId(categoryId: string | null) {
+    this._categoryId = categoryId;
+  }
+
+  setCurrentPage(page: number) {
+    this._currentPage = page;
+  }
+
+  setTotalPages(totalPages: number) {
+    this._totalPages = totalPages;
   }
 
   async getProducts() {
@@ -86,10 +131,12 @@ export default class CatalogStore {
 
     try {
       const response = await axios({
-        url: `${apiUrls.baseUrl}${apiUrls.products.list(0, LIMIT)}`,
+        url: `${apiUrls.baseUrl}${apiUrls.products.list}`,
         params: {
+          offset: LIMIT * (this._currentPage - 1),
+          limit: LIMIT,
           title: this._search,
-          categoryId: this._included[0]?.key,
+          categoryId: this._categoryId,
         },
       });
       runInAction(() => {
@@ -104,9 +151,11 @@ export default class CatalogStore {
             this._list = normalizeCollection(list, (item) => item.id);
           } catch (error) {
             this._meta = Meta.error;
+            this._list = getInitialCollectionModel();
           }
         } else {
           this._meta = Meta.error;
+          this._list = getInitialCollectionModel();
         }
       });
     } catch (error) {
@@ -121,15 +170,18 @@ export default class CatalogStore {
 
     try {
       const response = await axios({
-        url: `${apiUrls.baseUrl}${apiUrls.products.list(0, 0)}`,
+        url: `${apiUrls.baseUrl}${apiUrls.products.list}`,
         params: {
+          offset: 0,
+          limit: 0,
           title: this._search,
-          categoryId: this._included[0]?.key,
+          categoryId: this._categoryId,
         },
       });
       runInAction(() => {
         if (response.status === 200) {
           this._length = response.data.length;
+          this.setTotalPages(Math.ceil(this._length / LIMIT));
           this._meta = Meta.success;
         } else {
           this._meta = Meta.error;
@@ -160,10 +212,25 @@ export default class CatalogStore {
   }
 
   private readonly _qpReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('search'),
-    (search) => {
-      this._search = search ?? null;
-      console.log('search value change', search);
+    () => rootStore.query.params,
+    (params) => {
+      if (params.search) {
+        this.setSearch(params.search.toString());
+        this.setCurrentPage(1);
+      } else {
+        this.setSearch(null);
+      }
+      if (params.categoryId && !isNaN(Number(params.categoryId))) {
+        this.setCategoryId(params.categoryId.toString());
+        this.setCurrentPage(1);
+      } else {
+        this.setCategoryId(null);
+      }
+      if (params.page && !isNaN(Number(params.page))) {
+        this.setCurrentPage(Number(params.page));
+      } else {
+        this.setCurrentPage(1);
+      }
       this.getProducts();
       this.getLength();
     },

@@ -44,6 +44,11 @@ const ProductList: React.FC<{ list: ProductItemModel[]; meta: Meta; length: numb
       </div>
 
       <div className={s['product-list__cards']}>
+        {list.length === 0 && meta === Meta.success && (
+          <Text view="p-20" tag="h4" color="secondary">
+            No products found
+          </Text>
+        )}
         {list.map((product: ProductItemModel) => (
           <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
             <Card

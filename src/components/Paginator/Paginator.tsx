@@ -2,15 +2,26 @@ import React, { useMemo, useCallback } from 'react';
 import Button from '../Button';
 import s from './Paginator.module.scss';
 import cn from 'classnames';
+import { useSearchParams } from 'react-router-dom';
 
 type PaginatorProps = {
   currentPage: number;
   totalPages: number;
-  onPageChange: (pageNumber: number) => void;
-  maxVisiblePages?: number;
+  setCurrentPage: (page: number) => void;
 };
 
-const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
+const maxVisiblePages = 3;
+
+const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, setCurrentPage }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  React.useEffect(() => {
+    const page = searchParams.get('page') ?? 1;
+    if (!isNaN(Number(page))) {
+      setCurrentPage(Number(page));
+    }
+  }, [searchParams]);
+
   const pageNumbers = useMemo(() => {
     const numbers: (number | string)[] = [];
 
@@ -40,15 +51,28 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
 
   const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      setCurrentPage(currentPage - 1);
+      searchParams.set('page', (currentPage - 1).toString());
+      setSearchParams(searchParams);
     }
-  }, [currentPage, onPageChange]);
+  }, [currentPage, setCurrentPage, searchParams]);
+
+  const handleCurrentPage = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
+      searchParams.set('page', page.toString());
+      setSearchParams(searchParams);
+    },
+    [currentPage, setCurrentPage, searchParams],
+  );
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      setCurrentPage(currentPage + 1);
+      searchParams.set('page', (currentPage + 1).toString());
+      setSearchParams(searchParams);
     }
-  }, [currentPage, totalPages, onPageChange]);
+  }, [currentPage, totalPages, setCurrentPage, searchParams]);
 
   return (
     <nav>
@@ -67,7 +91,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
             )}
           >
             {typeof number === 'number' ? (
-              <Button onClick={() => onPageChange(number)}>{number}</Button>
+              <Button onClick={() => handleCurrentPage(number)}>{number}</Button>
             ) : (
               <span className="page-link">...</span>
             )}
