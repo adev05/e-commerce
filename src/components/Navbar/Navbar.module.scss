@@ -1,0 +1,21 @@
+@use "styles/variables" as *;
+
+.navbar {
+  --l-display: none;
+
+  display: var(--l-display);
+  align-items: center;
+  gap: $space-xl;
+
+  &__item {
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  @media (min-width: 768px) {
+    --l-display: flex;
+  }
+}

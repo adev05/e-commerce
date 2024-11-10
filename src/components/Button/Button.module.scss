@@ -1,0 +1,51 @@
+@use "styles/variables" as *;
+
+.button {
+  --l-button-text: #{$button-primary-text};
+  --l-button-background: #{$button-primary-bg};
+
+  min-height: 52px;
+  padding: $space-s $space-l;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: var(--l-button-background);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &__text,
+  &__loader {
+    transition: color 0.3s ease;
+  }
+
+  & &__text {
+    color: var(--l-button-text);
+  }
+
+  & &__loader {
+    color: var(--l-button-text);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    --l-button-text: #{$button-primary-text-hover};
+    --l-button-background: #{$button-primary-bg-hover};
+  }
+
+  &:active {
+    --l-button-text: #{$button-primary-text-active};
+    --l-button-background: #{$button-primary-bg-active};
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  &_disabled {
+    --l-button-text: #{$button-primary-text-disabled};
+    --l-button-background: #{$button-primary-bg-disabled};
+  }
+}

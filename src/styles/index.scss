@@ -1,0 +1,43 @@
+@import "./Roboto/fonts.css";
+@import "./variables.scss";
+
+html,
+body {
+  font-family: "Roboto";
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-width: 300px;
+}
+
+body {
+  scrollbar-gutter: stable;
+}
+
+* {
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+figure,
+pre {
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  $padding-x: 100px;
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}
+@media (min-width: 1536px) {
+}

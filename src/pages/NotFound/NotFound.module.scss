@@ -1,0 +1,11 @@
+@use "styles/variables" as *;
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: $space-s;
+  height: calc(100svh - 70px);
+}
