@@ -3,17 +3,15 @@ import Button from '../Button';
 import s from './Paginator.module.scss';
 import cn from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-
-type PaginatorProps = {
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: (page: number) => void;
-};
+import { observer } from 'mobx-react-lite';
+import { CatalogContext } from 'pages/Catalog';
 
 const maxVisiblePages = 3;
 
-const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, setCurrentPage }) => {
+const Paginator: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { catalogStore } = React.useContext(CatalogContext);
+  const { currentPage, totalPages, setCurrentPage } = catalogStore;
 
   React.useEffect(() => {
     const page = searchParams.get('page') ?? 1;
@@ -107,4 +105,4 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, setCurre
   );
 };
 
-export default React.memo(Paginator);
+export default observer(Paginator);

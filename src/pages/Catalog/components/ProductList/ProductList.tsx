@@ -4,31 +4,23 @@ import s from './ProductList.module.scss';
 import Button from 'components/Button';
 import { Link, Navigate } from 'react-router-dom';
 import { routerUrls } from 'config/routerUrls';
-import { LIMIT } from 'store/CatalogStore';
 import React from 'react';
-import CardSkeleton from 'components/CardSkeleton';
 import { Meta } from 'utils/meta';
 import { ProductItemModel } from 'store/models/Catalog';
+import { observer } from 'mobx-react-lite';
+import ProductListSkeleton from '../ProductListSkeleton';
+import { CatalogContext } from 'pages/Catalog';
 
-const ProductList: React.FC<{ list: ProductItemModel[]; meta: Meta; length: number }> = ({ list, meta, length }) => {
-  if (meta === Meta.loading) {
-    return (
-      <div className={s['product-list']}>
-        <div className={s['product-list__title']}>
-          <Text view="title" tag="h1">
-            Total Product
-          </Text>
-        </div>
-        <div className={s['product-list__cards']}>
-          {[...Array(LIMIT)].map((_, index) => (
-            <CardSkeleton key={index} />
-          ))}
-        </div>
-      </div>
-    );
+const ProductList: React.FC = () => {
+  const { catalogStore } = React.useContext(CatalogContext);
+
+  console.log('[Render]: ProductList', catalogStore);
+
+  if (catalogStore.meta === Meta.loading) {
+    return <ProductListSkeleton />;
   }
 
-  if (meta === Meta.error) {
+  if (catalogStore.meta === Meta.error) {
     return <Navigate to={routerUrls.notFound.create()} />;
   }
 
@@ -39,17 +31,17 @@ const ProductList: React.FC<{ list: ProductItemModel[]; meta: Meta; length: numb
           Total Product
         </Text>
         <Text view="p-20" tag="h4" weight="bold" color="accent">
-          {length}
+          {catalogStore.length}
         </Text>
       </div>
 
       <div className={s['product-list__cards']}>
-        {list.length === 0 && meta === Meta.success && (
+        {catalogStore.list.length === 0 && catalogStore.meta === Meta.success && (
           <Text view="p-20" tag="h4" color="secondary">
             No products found
           </Text>
         )}
-        {list.map((product: ProductItemModel) => (
+        {catalogStore.list.map((product: ProductItemModel) => (
           <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
             <Card
               captionSlot={product.category.name}
@@ -66,4 +58,4 @@ const ProductList: React.FC<{ list: ProductItemModel[]; meta: Meta; length: numb
   );
 };
 
-export default React.memo(ProductList);
+export default observer(ProductList);

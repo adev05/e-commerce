@@ -32,10 +32,10 @@ export const getInitialProductItemModel = (): ProductItemModel => ({
   images: [],
   category: {
     id: 0,
-    name: 'Название категории',
+    name: '',
     image: '',
   },
-  title: 'Название продукта',
-  description: 'Описание продукта',
+  title: '',
+  description: '',
   price: 0,
 });

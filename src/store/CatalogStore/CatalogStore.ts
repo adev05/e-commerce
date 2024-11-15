@@ -66,6 +66,8 @@ export default class CatalogStore {
       setIncluded: action.bound,
       setCategoryId: action.bound,
       setCurrentPage: action.bound,
+      setTotalPages: action.bound,
+      setList: action.bound,
     });
   }
 
@@ -106,7 +108,10 @@ export default class CatalogStore {
   }
 
   setSearch(search: string | null) {
+    if (this._search === search) return;
+
     this._search = search;
+    console.log('setSearch', search);
   }
 
   setIncluded(value: Option[]) {
@@ -125,9 +130,15 @@ export default class CatalogStore {
     this._totalPages = totalPages;
   }
 
+  setList(list: ProductItemModel[]) {
+    this._list = normalizeCollection(list, (item) => item.id);
+    console.log('setList:', this._list, this.list);
+  }
+
   async getProducts() {
+    console.log('getProducts called!', this._search, this._categoryId, this._meta);
+    if (this._meta === Meta.loading) return;
     this._meta = Meta.loading;
-    this._list = getInitialCollectionModel();
 
     try {
       const response = await axios({
@@ -146,28 +157,27 @@ export default class CatalogStore {
             for (const item of response.data) {
               list.push(normalizeProductItem(item));
             }
-
             this._meta = Meta.success;
-            this._list = normalizeCollection(list, (item) => item.id);
+            this.setList(list);
           } catch (error) {
             this._meta = Meta.error;
-            this._list = getInitialCollectionModel();
           }
         } else {
           this._meta = Meta.error;
-          this._list = getInitialCollectionModel();
         }
       });
     } catch (error) {
       this._meta = Meta.error;
-      this._list = getInitialCollectionModel();
     }
   }
 
   async getLength() {
-    this._meta = Meta.loading;
-    this._length = 0;
+    console.log('getLength called!', this._meta, this._search);
+    if (this._meta === Meta.loading) {
+      return;
+    }
 
+    this._meta = Meta.loading;
     try {
       const response = await axios({
         url: `${apiUrls.baseUrl}${apiUrls.products.list}`,
@@ -183,6 +193,7 @@ export default class CatalogStore {
           this._length = response.data.length;
           this.setTotalPages(Math.ceil(this._length / LIMIT));
           this._meta = Meta.success;
+          console.log('getLength:', this._length, 'currentPage:', this._currentPage, 'meta:', this._meta);
         } else {
           this._meta = Meta.error;
         }
@@ -193,9 +204,11 @@ export default class CatalogStore {
   }
 
   async getCategories() {
+    if (this._meta === Meta.loading) {
+      return;
+    }
     this._meta = Meta.loading;
-    this._categories = [];
-
+    console.log('getCategories called!', this._meta);
     try {
       const response = await axios({
         url: `${apiUrls.baseUrl}${apiUrls.categories.list()}`,
@@ -203,7 +216,10 @@ export default class CatalogStore {
       runInAction(() => {
         if (response.status === 200) {
           this._categories = response.data;
+          console.log('getCategories:', this._categories, 'meta:', this._meta);
           this._meta = Meta.success;
+        } else {
+          this._meta = Meta.error;
         }
       });
     } catch (error) {
@@ -214,25 +230,12 @@ export default class CatalogStore {
   private readonly _qpReaction: IReactionDisposer = reaction(
     () => rootStore.query.params,
     (params) => {
-      if (params.search) {
-        this.setSearch(params.search.toString());
-        this.setCurrentPage(1);
-      } else {
-        this.setSearch(null);
-      }
-      if (params.categoryId && !isNaN(Number(params.categoryId))) {
-        this.setCategoryId(params.categoryId.toString());
-        this.setCurrentPage(1);
-      } else {
-        this.setCategoryId(null);
-      }
-      if (params.page && !isNaN(Number(params.page))) {
-        this.setCurrentPage(Number(params.page));
-      } else {
-        this.setCurrentPage(1);
-      }
-      this.getProducts();
-      this.getLength();
+      // if (this._search !== params.title) {
+      //   console.log('params.title has been updated!', params.title, this._search);
+      //   this.setSearch((params.title as string) || null);
+      //   this.getProducts();
+      //   this.getLength();
+      // }
     },
   );
 

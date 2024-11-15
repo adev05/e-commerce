@@ -3,44 +3,53 @@ import Main from './components/Main';
 import Filter from './components/Filter';
 import ProductList from './components/ProductList';
 import s from './Catalog.module.scss';
-import React from 'react';
-import { observer, useLocalObservable } from 'mobx-react-lite';
+import React, { createContext } from 'react';
+import { useLocalObservable } from 'mobx-react-lite';
 import CatalogStore from 'store/CatalogStore';
-import { toJS } from 'mobx';
-import { Option } from 'components/MultiDropdown';
 import { useQueryParamsStoreInit } from 'store/RootStore/hooks/useQueryParamsStoreInit';
 import Paginator from 'components/Paginator';
 
+type CatalogContextType = {
+  catalogStore: CatalogStore;
+};
+
+export const CatalogContext = createContext({} as CatalogContextType);
+
 const Catalog: React.FC = () => {
+  console.log('[Render]: Catalog');
   useQueryParamsStoreInit();
+
   const catalogStore = useLocalObservable(() => new CatalogStore());
 
   React.useEffect(() => {
-    catalogStore.getCategories();
-    catalogStore.getProducts();
-    catalogStore.getLength();
+    async function fetch() {
+      await catalogStore.getCategories();
+      await catalogStore.getProducts();
+      await catalogStore.getLength();
+    }
+
+    fetch();
   }, []);
 
+  React.useEffect(() => {
+    console.log('update');
+  }, [catalogStore]);
+
+  const catalogContext = {
+    catalogStore,
+  };
+
   return (
-    <div className={s.catalog}>
-      <Main />
-      <Search search={catalogStore.search} setSearch={catalogStore.setSearch} />
-      <Filter
-        options={catalogStore.options}
-        value={toJS(catalogStore.included)}
-        onChange={catalogStore.setIncluded}
-        getTitle={(options: Option[]) => (options.length === 0 ? 'Filter' : options[0].value)}
-        setIncluded={catalogStore.setIncluded}
-        setCategoryId={catalogStore.setCategoryId}
-      />
-      <ProductList list={catalogStore.list} meta={catalogStore.meta} length={catalogStore.length} />
-      <Paginator
-        currentPage={catalogStore.currentPage}
-        totalPages={catalogStore.totalPages}
-        setCurrentPage={catalogStore.setCurrentPage}
-      />
-    </div>
+    <CatalogContext.Provider value={catalogContext}>
+      <div className={s.catalog}>
+        <Main />
+        <Search />
+        <Filter />
+        <ProductList />
+        <Paginator />
+      </div>
+    </CatalogContext.Provider>
   );
 };
 
-export default observer(Catalog);
+export default React.memo(Catalog);

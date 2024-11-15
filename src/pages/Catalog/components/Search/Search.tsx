@@ -3,44 +3,44 @@ import Input from 'components/Input';
 import s from './Search.module.scss';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { PAGE, SEARCH } from 'store/CatalogStore';
+import { observer } from 'mobx-react-lite';
+import { CatalogContext } from 'pages/Catalog';
 
-const Search: React.FC<{ search: string | null; setSearch: (search: string | null) => void }> = ({
-  search,
-  setSearch,
-}) => {
+const Search: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = React.useState<string | null>(null);
+  const { catalogStore } = React.useContext(CatalogContext);
+  const { search, setSearch } = catalogStore;
+
+  console.log('[Render]: Search');
 
   React.useEffect(() => {
-    const search = searchParams.get('search');
-    setSearchValue(search);
-    setSearch(search);
-  }, [searchParams]);
+    const searchValue = searchParams.get(SEARCH);
+    setSearch(searchValue);
+  }, []);
 
-  const handleSubmit = React.useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+  const searchSubmit = React.useCallback(
+    (e: React.FormEvent) => {
       e.preventDefault();
-
-      if (searchValue !== search) {
-        if (searchValue) {
-          searchParams.set('search', searchValue);
-          searchParams.delete('page');
-        } else {
-          searchParams.delete('search');
-        }
-        setSearch(searchValue);
-        setSearchParams(searchParams);
+      console.log({ search });
+      if (search) {
+        searchParams.set(SEARCH, search);
+      } else {
+        searchParams.delete(SEARCH);
       }
+      searchParams.delete(PAGE);
+      catalogStore.getProducts();
+      setSearchParams(searchParams);
     },
-    [searchParams, searchValue, search, setSearch, setSearchParams],
+    [search, searchParams],
   );
 
   return (
-    <form className={s.search} onSubmit={handleSubmit}>
-      <Input value={searchValue ?? ''} onChange={setSearchValue} placeholder="Search product" />
+    <form className={s.search} onSubmit={searchSubmit}>
+      <Input value={search || ''} onChange={setSearch} placeholder="Search product" />
       <Button type="submit">Find now</Button>
     </form>
   );
 };
 
-export default React.memo(Search);
+export default observer(Search);
