@@ -1,10 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import * as ReactDom from 'react-dom/client';
-import './styles/index.scss';
+import 'config/configureMobX';
+import 'styles/index.scss';
 import App from './App';
+import * as Router from 'react-router-dom';
 
 ReactDom.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <Router.BrowserRouter>
+      <App />
+    </Router.BrowserRouter>
   </React.StrictMode>,
 );

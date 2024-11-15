@@ -2,15 +2,24 @@ import React, { useMemo, useCallback } from 'react';
 import Button from '../Button';
 import s from './Paginator.module.scss';
 import cn from 'classnames';
+import { useSearchParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { CatalogContext } from 'pages/Catalog';
 
-type PaginatorProps = {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (pageNumber: number) => void;
-  maxVisiblePages?: number;
-};
+const maxVisiblePages = 3;
 
-const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
+const Paginator: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { catalogStore } = React.useContext(CatalogContext);
+  const { currentPage, totalPages, setCurrentPage } = catalogStore;
+
+  React.useEffect(() => {
+    const page = searchParams.get('page') ?? 1;
+    if (!isNaN(Number(page))) {
+      setCurrentPage(Number(page));
+    }
+  }, [searchParams]);
+
   const pageNumbers = useMemo(() => {
     const numbers: (number | string)[] = [];
 
@@ -40,15 +49,28 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
 
   const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      setCurrentPage(currentPage - 1);
+      searchParams.set('page', (currentPage - 1).toString());
+      setSearchParams(searchParams);
     }
-  }, [currentPage, onPageChange]);
+  }, [currentPage, setCurrentPage, searchParams]);
+
+  const handleCurrentPage = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
+      searchParams.set('page', page.toString());
+      setSearchParams(searchParams);
+    },
+    [currentPage, setCurrentPage, searchParams],
+  );
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      setCurrentPage(currentPage + 1);
+      searchParams.set('page', (currentPage + 1).toString());
+      setSearchParams(searchParams);
     }
-  }, [currentPage, totalPages, onPageChange]);
+  }, [currentPage, totalPages, setCurrentPage, searchParams]);
 
   return (
     <nav>
@@ -67,7 +89,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
             )}
           >
             {typeof number === 'number' ? (
-              <Button onClick={() => onPageChange(number)}>{number}</Button>
+              <Button onClick={() => handleCurrentPage(number)}>{number}</Button>
             ) : (
               <span className="page-link">...</span>
             )}
@@ -83,4 +105,4 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
   );
 };
 
-export default React.memo(Paginator);
+export default observer(Paginator);

@@ -78,7 +78,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
       if (selectedKeysSet.has(option.key)) {
         onChange([...value].filter(({ key }) => key !== option.key));
       } else {
-        onChange([...value, option]);
+        onChange([option]);
+        setIsOpened(false);
       }
 
       ref.current?.focus();

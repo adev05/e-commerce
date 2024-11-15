@@ -1,16 +1,10 @@
-import ArrowLeftIcon from 'components/Icons/ArrowLeftIcon';
 import s from './ProductSkeleton.module.scss';
-import Text from 'components/Text';
+import BackButton from '../BackButton';
 
 const ProductSkeleton: React.FC = () => {
   return (
     <div className={s['product-skeleton']}>
-      <div className={s['product-skeleton__return-back']}>
-        <ArrowLeftIcon />
-        <Text view="p-20" tag="h4" color="primary">
-          Назад
-        </Text>
-      </div>
+      <BackButton />
 
       <div className={s['product-skeleton__container']}>
         <div className={s['product-skeleton__image']}></div>
