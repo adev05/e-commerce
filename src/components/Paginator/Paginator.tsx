@@ -4,11 +4,11 @@ import s from './Paginator.module.scss';
 import cn from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { CatalogContext } from 'pages/Catalog';
+import { CatalogContext } from '@pages/Catalog';
 
 const maxVisiblePages = 3;
 
-const Paginator: React.FC = () => {
+const Paginator: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { catalogStore } = React.useContext(CatalogContext);
   const { currentPage, totalPages, setCurrentPage } = catalogStore;
@@ -103,6 +103,6 @@ const Paginator: React.FC = () => {
       </ul>
     </nav>
   );
-};
+});
 
-export default observer(Paginator);
+export default Paginator;

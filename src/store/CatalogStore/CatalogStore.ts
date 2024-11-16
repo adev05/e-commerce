@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { action, computed, IReactionDisposer, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { LIMIT } from './config';
-import { apiUrls } from 'config/apiUrls';
-import { Meta } from 'utils/meta';
-import { CategoryItemModel, normalizeProductItem, ProductItemModel } from 'store/models/Catalog';
+import { apiUrls } from '@config/apiUrls';
+import { Meta } from '@utils/meta';
+import { CategoryItemModel, normalizeProductItem, ProductItemModel } from '@store/models/Catalog';
 import {
   CollectionModel,
   getInitialCollectionModel,
   linearizeCollection,
   normalizeCollection,
-} from 'store/models/shared/collection';
-import rootStore from 'store/RootStore';
-import { Option } from 'components/MultiDropdown';
+} from '@store/models/shared/collection';
+import rootStore from '@store/RootStore';
+import { Option } from '@components/MultiDropdown';
 
 type PrivateFields =
   | '_list'
@@ -159,15 +159,21 @@ export default class CatalogStore {
             }
             this._meta = Meta.success;
             this.setList(list);
-          } catch (error) {
+          } catch (error: unknown) {
             this._meta = Meta.error;
+            if (error instanceof Error) {
+              console.error(error.message);
+            }
           }
         } else {
           this._meta = Meta.error;
         }
       });
-    } catch (error) {
+    } catch (error: unknown) {
       this._meta = Meta.error;
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
@@ -198,8 +204,11 @@ export default class CatalogStore {
           this._meta = Meta.error;
         }
       });
-    } catch (error) {
+    } catch (error: unknown) {
       this._meta = Meta.error;
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
@@ -222,14 +231,17 @@ export default class CatalogStore {
           this._meta = Meta.error;
         }
       });
-    } catch (error) {
+    } catch (error: unknown) {
       this._meta = Meta.error;
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
   private readonly _qpReaction: IReactionDisposer = reaction(
     () => rootStore.query.params,
-    (params) => {
+    () => {
       // if (this._search !== params.title) {
       //   console.log('params.title has been updated!', params.title, this._search);
       //   this.setSearch((params.title as string) || null);

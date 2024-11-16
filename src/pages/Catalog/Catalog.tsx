@@ -5,9 +5,9 @@ import ProductList from './components/ProductList';
 import s from './Catalog.module.scss';
 import React, { createContext } from 'react';
 import { useLocalObservable } from 'mobx-react-lite';
-import CatalogStore from 'store/CatalogStore';
-import { useQueryParamsStoreInit } from 'store/RootStore/hooks/useQueryParamsStoreInit';
-import Paginator from 'components/Paginator';
+import CatalogStore from '@store/CatalogStore';
+import { useQueryParamsStoreInit } from '@store/RootStore/hooks/useQueryParamsStoreInit';
+import Paginator from '@components/Paginator';
 
 type CatalogContextType = {
   catalogStore: CatalogStore;

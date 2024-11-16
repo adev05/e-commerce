@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import Text from '../Text';
 import s from './Navbar.module.scss';
-import { navbarUrls } from 'config/navbarUrls';
+import { navbarUrls } from '@config/navbarUrls';
 import cn from 'classnames';
+import React from 'react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();

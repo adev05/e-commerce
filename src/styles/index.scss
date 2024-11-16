@@ -1,5 +1,5 @@
 @import "./Roboto/fonts.css";
-@import "./variables.scss";
+// @use "./variables.scss" as *;
 
 html,
 body {
@@ -34,7 +34,7 @@ pre {
 }
 
 @media (min-width: 768px) {
-  $padding-x: 100px;
+  // $padding-x: 100px;
 }
 @media (min-width: 1024px) {
 }

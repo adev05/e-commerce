@@ -1,5 +1,6 @@
 import s from './ProductSkeleton.module.scss';
 import BackButton from '../BackButton';
+import React from 'react';
 
 const ProductSkeleton: React.FC = () => {
   return (

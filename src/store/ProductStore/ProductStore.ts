@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { apiUrls } from 'config/apiUrls';
+import { apiUrls } from '@config/apiUrls';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
-import { getInitialProductItemModel, normalizeProductItem, ProductItemModel } from 'store/models/Catalog';
-import { Meta } from 'utils/meta';
+import { normalizeProductItem, ProductItemModel } from '@store/models/Catalog';
+import { Meta } from '@utils/meta';
 
 type PrivateFields = '_productId' | '_categoryId' | '_product' | '_relatedProducts' | '_meta';
 
@@ -78,8 +78,11 @@ export default class ProductStore {
           this._meta = Meta.error;
         }
       });
-    } catch (error) {
+    } catch (error: unknown) {
       this._meta = Meta.error;
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 

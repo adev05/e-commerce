@@ -1,17 +1,17 @@
-import Card from 'components/Card';
-import Text from 'components/Text';
+import Card from '@components/Card';
+import Text from '@components/Text';
 import s from './ProductList.module.scss';
-import Button from 'components/Button';
+import Button from '@components/Button';
 import { Link, Navigate } from 'react-router-dom';
-import { routerUrls } from 'config/routerUrls';
+import { routerUrls } from '@config/routerUrls';
 import React from 'react';
-import { Meta } from 'utils/meta';
-import { ProductItemModel } from 'store/models/Catalog';
+import { Meta } from '@utils/meta';
+import { ProductItemModel } from '@store/models/Catalog';
 import { observer } from 'mobx-react-lite';
 import ProductListSkeleton from '../ProductListSkeleton';
-import { CatalogContext } from 'pages/Catalog';
+import { CatalogContext } from '@pages/Catalog';
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC = observer(() => {
   const { catalogStore } = React.useContext(CatalogContext);
 
   console.log('[Render]: ProductList', catalogStore);
@@ -56,6 +56,6 @@ const ProductList: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
-export default observer(ProductList);
+export default ProductList;

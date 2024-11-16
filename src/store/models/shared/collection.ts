@@ -3,9 +3,9 @@ export type CollectionModel<K extends string | number, T> = {
   entities: Record<K, T>;
 };
 
-export const getInitialCollectionModel = (): CollectionModel<any, any> => ({
+export const getInitialCollectionModel = <K extends string | number, T>(): CollectionModel<K, T> => ({
   order: [],
-  entities: {},
+  entities: {} as Record<K, T>,
 });
 
 export const normalizeCollection = <K extends string | number, T>(

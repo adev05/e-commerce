@@ -3,6 +3,7 @@ import Navbar from '../Navbar';
 import BagIcon from '../Icons/BagIcon';
 import s from './Header.module.scss';
 import HeartIcon from '../Icons/HeartIcon';
+import React from 'react';
 
 const Header: React.FC = () => {
   return (

@@ -1,9 +1,9 @@
-import Text from 'components/Text';
-import ArrowLeftIcon from 'components/Icons/ArrowLeftIcon';
+import Text from '@components/Text';
+import ArrowLeftIcon from '@components/Icons/ArrowLeftIcon';
 import { Link } from 'react-router-dom';
 import s from './BackButton.module.scss';
 import React from 'react';
-import { routerUrls } from 'config/routerUrls';
+import { routerUrls } from '@config/routerUrls';
 
 const BackButton: React.FC = () => {
   // const navigate = useNavigate();

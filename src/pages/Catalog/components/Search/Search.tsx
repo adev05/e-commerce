@@ -1,13 +1,13 @@
-import Button from 'components/Button';
-import Input from 'components/Input';
+import Button from '@components/Button';
+import Input from '@components/Input';
 import s from './Search.module.scss';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { PAGE, SEARCH } from 'store/CatalogStore';
+import { PAGE, SEARCH } from '@store/CatalogStore';
 import { observer } from 'mobx-react-lite';
-import { CatalogContext } from 'pages/Catalog';
+import { CatalogContext } from '@pages/Catalog';
 
-const Search: React.FC = () => {
+const Search: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { catalogStore } = React.useContext(CatalogContext);
   const { search, setSearch } = catalogStore;
@@ -17,7 +17,7 @@ const Search: React.FC = () => {
   React.useEffect(() => {
     const searchValue = searchParams.get(SEARCH);
     setSearch(searchValue);
-  }, []);
+  }, [searchParams, setSearch]);
 
   const searchSubmit = React.useCallback(
     (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ const Search: React.FC = () => {
       catalogStore.getProducts();
       setSearchParams(searchParams);
     },
-    [search, searchParams],
+    [catalogStore, search, searchParams, setSearchParams],
   );
 
   return (
@@ -41,6 +41,6 @@ const Search: React.FC = () => {
       <Button type="submit">Find now</Button>
     </form>
   );
-};
+});
 
-export default observer(Search);
+export default Search;

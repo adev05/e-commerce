@@ -1,4 +1,4 @@
-import Text from 'components/Text';
+import Text from '@components/Text';
 import s from './Main.module.scss';
 import React from 'react';
 

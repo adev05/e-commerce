@@ -1,8 +1,8 @@
 import React from 'react';
 import s from '../ProductList/ProductList.module.scss';
-import Text from 'components/Text';
-import CardSkeleton from 'components/CardSkeleton';
-import { LIMIT } from 'store/CatalogStore';
+import Text from '@components/Text';
+import CardSkeleton from '@components/CardSkeleton';
+import { LIMIT } from '@store/CatalogStore';
 
 const ProductListSkeleton: React.FC = () => {
   return (

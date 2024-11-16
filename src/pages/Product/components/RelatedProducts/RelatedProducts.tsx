@@ -1,11 +1,11 @@
-import Text from 'components/Text';
+import Text from '@components/Text';
 import React from 'react';
 import s from './RelatedProducts.module.scss';
-import { ProductItemModel } from 'store/models/Catalog';
+import { ProductItemModel } from '@store/models/Catalog';
 import { Link } from 'react-router-dom';
-import { routerUrls } from 'config/routerUrls';
-import Card from 'components/Card';
-import Button from 'components/Button';
+import { routerUrls } from '@config/routerUrls';
+import Card from '@components/Card';
+import Button from '@components/Button';
 
 const RelatedProducts: React.FC<{ products: ProductItemModel[] }> = ({ products }) => {
   return (

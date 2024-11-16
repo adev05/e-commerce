@@ -1,12 +1,12 @@
-import MultiDropdown, { Option } from 'components/MultiDropdown';
+import MultiDropdown, { Option } from '@components/MultiDropdown';
 import s from './Filter.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import React from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { CatalogContext } from 'pages/Catalog';
+import { CatalogContext } from '@pages/Catalog';
 
-const Filter: React.FC = () => {
+const Filter: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { catalogStore } = React.useContext(CatalogContext);
   const { options, setIncluded, setCategoryId } = catalogStore;
@@ -26,7 +26,7 @@ const Filter: React.FC = () => {
         setIncluded(selectedOption);
       }
     }
-  }, [searchParams, options, onChange]);
+  }, [searchParams, options, onChange, setCategoryId, setIncluded]);
 
   const handleFilterChange = (selectedOption: Option[]) => {
     if (selectedOption.length > 0) {
@@ -52,6 +52,6 @@ const Filter: React.FC = () => {
       getTitle={getTitle}
     />
   );
-};
+});
 
-export default observer(Filter);
+export default Filter;

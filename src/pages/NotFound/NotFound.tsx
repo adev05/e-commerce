@@ -1,5 +1,6 @@
+import React from 'react';
 import s from './NotFound.module.scss';
-import Text from 'components/Text';
+import Text from '@components/Text';
 
 const NotFound: React.FC = () => {
   return (
