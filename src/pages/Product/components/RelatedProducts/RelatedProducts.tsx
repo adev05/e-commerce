@@ -1,13 +1,13 @@
 import Text from '@components/Text';
 import React from 'react';
 import s from './RelatedProducts.module.scss';
-import { ProductItemModel } from '@store/models/Catalog';
+import { ProductItem } from '@store/models/Catalog';
 import { Link } from 'react-router-dom';
 import { routerUrls } from '@config/routerUrls';
 import Card from '@components/Card';
 import Button from '@components/Button';
 
-const RelatedProducts: React.FC<{ products: ProductItemModel[] }> = ({ products }) => {
+const RelatedProducts: React.FC<{ products: ProductItem[] }> = ({ products }) => {
   return (
     <div className={s['related-products']}>
       <Text view="title" tag="h1">

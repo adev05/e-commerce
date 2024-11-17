@@ -5,6 +5,7 @@ import React from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { CatalogContext } from '@pages/Catalog';
+import { CATEGORY_ID, PAGE } from '@store/CatalogStore';
 
 const Filter: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,16 +31,23 @@ const Filter: React.FC = observer(() => {
 
   const handleFilterChange = (selectedOption: Option[]) => {
     if (selectedOption.length > 0) {
-      searchParams.set('categoryId', selectedOption[0].key);
-      searchParams.delete('page');
+      searchParams.set(CATEGORY_ID, selectedOption[0].key);
+      searchParams.delete(PAGE);
     } else {
-      searchParams.delete('categoryId');
+      searchParams.delete(CATEGORY_ID);
     }
-
     setSearchParams(searchParams);
+
     setIncluded(selectedOption);
     setCategoryId(selectedOption.length > 0 ? selectedOption[0].key : null);
-    catalogStore.getProducts();
+
+    async function fetch() {
+      await catalogStore.getProducts();
+      await catalogStore.getLength();
+    }
+
+    fetch();
+
     onChange(selectedOption);
   };
 

@@ -3,14 +3,13 @@ import { action, computed, IReactionDisposer, makeObservable, observable, reacti
 import { LIMIT } from './config';
 import { apiUrls } from '@config/apiUrls';
 import { Meta } from '@utils/meta';
-import { CategoryItemModel, normalizeProductItem, ProductItemModel } from '@store/models/Catalog';
+import { CategoryItemModel, normalizeProductItem, ProductItem } from '@store/models/Catalog';
 import {
   CollectionModel,
   getInitialCollectionModel,
   linearizeCollection,
   normalizeCollection,
 } from '@store/models/shared/collection';
-import rootStore from '@store/RootStore';
 import { Option } from '@components/MultiDropdown';
 
 type PrivateFields =
@@ -25,7 +24,7 @@ type PrivateFields =
   | '_totalPages';
 
 export default class CatalogStore {
-  private _list: CollectionModel<number, ProductItemModel> = getInitialCollectionModel();
+  private _list: CollectionModel<number, ProductItem> = getInitialCollectionModel();
   private _meta: Meta = Meta.initial;
   private _length: number = 0;
   private _search: string | null = null;
@@ -69,9 +68,25 @@ export default class CatalogStore {
       setTotalPages: action.bound,
       setList: action.bound,
     });
+
+    reaction(
+      () => this._currentPage,
+      (page) => {
+        console.log('setCurrentPage reaction', page);
+        Promise.all([this.getProducts(), this.getLength()]);
+      },
+    );
+
+    reaction(
+      () => this.categoryId,
+      (included) => {
+        console.log('categoryId reaction', included);
+        // Promise.all([this.getProducts(), this.getLength()]);
+      },
+    );
   }
 
-  get list(): ProductItemModel[] {
+  get list(): ProductItem[] {
     return linearizeCollection(this._list);
   }
 
@@ -115,34 +130,41 @@ export default class CatalogStore {
   }
 
   setIncluded(value: Option[]) {
+    if (this._included[0]?.key === value[0]?.key) return;
+    console.log('setIncluded', value, this._included[0]?.key);
     this._included = value;
   }
 
   setCategoryId(categoryId: string | null) {
+    if (this._categoryId === categoryId) return;
+    console.log('setCategoryId', categoryId);
     this._categoryId = categoryId;
   }
 
   setCurrentPage(page: number) {
-    this._currentPage = page;
+    console.log('setCurrentPage', { page });
+    if (page != this._currentPage) {
+      this._currentPage = page;
+    }
   }
 
   setTotalPages(totalPages: number) {
     this._totalPages = totalPages;
   }
 
-  setList(list: ProductItemModel[]) {
+  setList(list: ProductItem[]) {
     this._list = normalizeCollection(list, (item) => item.id);
     console.log('setList:', this._list, this.list);
   }
 
   async getProducts() {
-    console.log('getProducts called!', this._search, this._categoryId, this._meta);
+    console.log('getProducts called!', this._search, this._categoryId, this._currentPage, this._included, this._meta);
     if (this._meta === Meta.loading) return;
     this._meta = Meta.loading;
 
     try {
       const response = await axios({
-        url: `${apiUrls.baseUrl}${apiUrls.products.list}`,
+        url: `${apiUrls.withBaseUrl(apiUrls.products.list)}`,
         params: {
           offset: LIMIT * (this._currentPage - 1),
           limit: LIMIT,
@@ -153,7 +175,7 @@ export default class CatalogStore {
       runInAction(() => {
         if (response.status === 200) {
           try {
-            const list: ProductItemModel[] = [];
+            const list: ProductItem[] = [];
             for (const item of response.data) {
               list.push(normalizeProductItem(item));
             }
@@ -186,7 +208,7 @@ export default class CatalogStore {
     this._meta = Meta.loading;
     try {
       const response = await axios({
-        url: `${apiUrls.baseUrl}${apiUrls.products.list}`,
+        url: `${apiUrls.withBaseUrl(apiUrls.products.list)}`,
         params: {
           offset: 0,
           limit: 0,
@@ -220,7 +242,7 @@ export default class CatalogStore {
     console.log('getCategories called!', this._meta);
     try {
       const response = await axios({
-        url: `${apiUrls.baseUrl}${apiUrls.categories.list()}`,
+        url: `${apiUrls.withBaseUrl(apiUrls.categories.list())}`,
       });
       runInAction(() => {
         if (response.status === 200) {
@@ -239,19 +261,22 @@ export default class CatalogStore {
     }
   }
 
-  private readonly _qpReaction: IReactionDisposer = reaction(
-    () => rootStore.query.params,
-    () => {
-      // if (this._search !== params.title) {
-      //   console.log('params.title has been updated!', params.title, this._search);
-      //   this.setSearch((params.title as string) || null);
-      //   this.getProducts();
-      //   this.getLength();
-      // }
-    },
-  );
+  // private readonly _qpReaction: IReactionDisposer = reaction(
+  //   () => this._currentPage,
+  //   (page) => {
+  //     console.log('current page has been changed! new page:', page);
+  //     this.getProducts();
+  //     this.getLength();
+  //     // if (this._search !== params.title) {
+  //     //   console.log('params.title has been updated!', params.title, this._search);
+  //     //   this.setSearch((params.title as string) || null);
+  //     //   this.getProducts();
+  //     //   this.getLength();
+  //     // }
+  //   },
+  // );
 
-  destroy(): void {
-    this._qpReaction();
-  }
+  // destroy(): void {
+  //   this._qpReaction();
+  // }
 }

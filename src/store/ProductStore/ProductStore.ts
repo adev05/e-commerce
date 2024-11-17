@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { apiUrls } from '@config/apiUrls';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
-import { normalizeProductItem, ProductItemModel } from '@store/models/Catalog';
+import { normalizeProductItem, ProductItem } from '@store/models/Catalog';
 import { Meta } from '@utils/meta';
 
 type PrivateFields = '_productId' | '_categoryId' | '_product' | '_relatedProducts' | '_meta';
@@ -9,8 +9,8 @@ type PrivateFields = '_productId' | '_categoryId' | '_product' | '_relatedProduc
 export default class ProductStore {
   private _productId: number | null = null;
   private _categoryId: number | null = null;
-  private _product: ProductItemModel | null = null;
-  private _relatedProducts: ProductItemModel[] = [];
+  private _product: ProductItem | null = null;
+  private _relatedProducts: ProductItem[] = [];
   private _meta: Meta = Meta.initial;
 
   constructor() {
@@ -41,11 +41,11 @@ export default class ProductStore {
     return this._categoryId;
   }
 
-  get product(): ProductItemModel | null {
+  get product(): ProductItem | null {
     return this._product;
   }
 
-  get relatedProducts(): ProductItemModel[] {
+  get relatedProducts(): ProductItem[] {
     return this._relatedProducts;
   }
 
@@ -105,7 +105,7 @@ export default class ProductStore {
       runInAction(() => {
         if (response.status === 200) {
           this._relatedProducts = response.data
-            .filter((product: ProductItemModel) => product.id !== this._productId)
+            .filter((product: ProductItem) => product.id !== this._productId)
             .slice(0, 4);
           console.log(this._relatedProducts);
           this._meta = Meta.success;

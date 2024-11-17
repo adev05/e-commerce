@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { CatalogContext } from '@pages/Catalog';
+import { PAGE } from '@store/CatalogStore';
 
 const maxVisiblePages = 3;
 
@@ -14,7 +15,7 @@ const Paginator: React.FC = observer(() => {
   const { currentPage, totalPages, setCurrentPage } = catalogStore;
 
   React.useEffect(() => {
-    const page = searchParams.get('page') ?? 1;
+    const page = searchParams.get(PAGE) ?? 1;
     if (!isNaN(Number(page))) {
       setCurrentPage(Number(page));
     }
@@ -50,7 +51,7 @@ const Paginator: React.FC = observer(() => {
   const handlePreviousPage = useCallback(() => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      searchParams.set('page', (currentPage - 1).toString());
+      searchParams.set(PAGE, (currentPage - 1).toString());
       setSearchParams(searchParams);
     }
   }, [currentPage, setCurrentPage, searchParams]);
@@ -58,7 +59,7 @@ const Paginator: React.FC = observer(() => {
   const handleCurrentPage = useCallback(
     (page: number) => {
       setCurrentPage(page);
-      searchParams.set('page', page.toString());
+      searchParams.set(PAGE, page.toString());
       setSearchParams(searchParams);
     },
     [currentPage, setCurrentPage, searchParams],
@@ -67,7 +68,7 @@ const Paginator: React.FC = observer(() => {
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      searchParams.set('page', (currentPage + 1).toString());
+      searchParams.set(PAGE, (currentPage + 1).toString());
       setSearchParams(searchParams);
     }
   }, [currentPage, totalPages, setCurrentPage, searchParams]);

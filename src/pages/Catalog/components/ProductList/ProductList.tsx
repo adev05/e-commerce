@@ -6,7 +6,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { routerUrls } from '@config/routerUrls';
 import React from 'react';
 import { Meta } from '@utils/meta';
-import { ProductItemModel } from '@store/models/Catalog';
+import { ProductItem } from '@store/models/Catalog';
 import { observer } from 'mobx-react-lite';
 import ProductListSkeleton from '../ProductListSkeleton';
 import { CatalogContext } from '@pages/Catalog';
@@ -41,7 +41,7 @@ const ProductList: React.FC = observer(() => {
             No products found
           </Text>
         )}
-        {catalogStore.list.map((product: ProductItemModel) => (
+        {catalogStore.list.map((product: ProductItem) => (
           <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
             <Card
               captionSlot={product.category.name}

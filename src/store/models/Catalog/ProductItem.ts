@@ -1,4 +1,4 @@
-import { CategoryItemApi, CategoryItemModel } from './CategoryItem';
+import { CategoryItemApi, CategoryItemModel, normalizeCategoryItem } from './CategoryItem';
 
 export type ProductItemApi = {
   id: number;
@@ -9,7 +9,7 @@ export type ProductItemApi = {
   category: CategoryItemApi;
 };
 
-export type ProductItemModel = {
+export type ProductItem = {
   id: number;
   title: string;
   price: number;
@@ -18,16 +18,16 @@ export type ProductItemModel = {
   category: CategoryItemModel;
 };
 
-export const normalizeProductItem = (from: ProductItemApi): ProductItemModel => ({
+export const normalizeProductItem = (from: ProductItemApi): ProductItem => ({
   id: from.id,
   title: from.title,
   price: from.price,
   description: from.description,
   images: from.images,
-  category: from.category,
+  category: normalizeCategoryItem(from.category),
 });
 
-export const getInitialProductItemModel = (): ProductItemModel => ({
+export const getInitialProductItem = (): ProductItem => ({
   id: 0,
   images: [],
   category: {

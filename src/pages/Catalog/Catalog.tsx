@@ -31,10 +31,6 @@ const Catalog: React.FC = () => {
     fetch();
   }, []);
 
-  React.useEffect(() => {
-    console.log('update');
-  }, [catalogStore]);
-
   const catalogContext = {
     catalogStore,
   };
