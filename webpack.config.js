@@ -44,6 +44,7 @@ module.exports = {
     path: buildPath,
     filename: 'bundle.js',
   },
+  devtool: 'source-map',
   target: !isProd ? 'web' : 'browserslist',
   resolve: {
     extensions: ['.tsx', '.jsx', '.js', '.ts'],
@@ -62,6 +63,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(publicPath, 'index.html'),
       filename: './index.html',
+      favicon: path.join(srcPath, 'assets/images/favicon.svg'),
     }),
     !isProd && new ReactRefreshWebpackPlugin(),
     isProd &&

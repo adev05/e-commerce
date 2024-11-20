@@ -29,8 +29,15 @@ const Search: React.FC = observer(() => {
         searchParams.delete(SEARCH);
       }
       searchParams.delete(PAGE);
-      catalogStore.getProducts();
+
       setSearchParams(searchParams);
+
+      async function fetch() {
+        await catalogStore.getProducts();
+        await catalogStore.getLength();
+      }
+
+      fetch();
     },
     [catalogStore, search, searchParams, setSearchParams],
   );
@@ -38,7 +45,9 @@ const Search: React.FC = observer(() => {
   return (
     <form className={s.search} onSubmit={searchSubmit}>
       <Input value={search || ''} onChange={setSearch} placeholder="Search product" />
-      <Button type="submit">Find now</Button>
+      <Button type="submit" className={s.search__button}>
+        Find now
+      </Button>
     </form>
   );
 });

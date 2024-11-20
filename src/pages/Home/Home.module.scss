@@ -3,17 +3,25 @@
 .home {
   --l-padding-x: 16px;
   padding: 0 var(--l-padding-x);
+  text-align: center;
 
   &__title {
-    padding: 48px 0;
-    text-transform: uppercase;
+    font-size: 64px;
+    line-height: 130%;
+    padding-top: 64px;
     text-align: center;
-    text-wrap: nowrap;
+  }
+
+  &__subtitle {
+    font-size: 18px;
+    line-height: 180%;
+    padding: 32px 0;
+    text-align: center;
   }
 
   &__banner {
-    width: 100%;
-    height: calc(100svh - 70px - 16px);
+    width: 80%;
+    margin: auto;
     object-fit: cover;
     border-radius: 16px;
   }

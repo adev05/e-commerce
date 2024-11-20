@@ -4,40 +4,49 @@
   --l-button-text: #{$button-primary-text};
   --l-button-background: #{$button-primary-bg};
 
-  min-height: 52px;
-  padding: $space-s $space-l;
+  padding: $space-xs $space-m;
   border-radius: $border-radius;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: var(--l-button-background);
+  transition: transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
   border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  &_primary {
+    background-color: var(--l-button-background);
+    color: var(--l-button-text);
+  }
+
+  &_secondary {
+    background-color: $button-secondary-bg;
+    color: $button-secondary-text;
+  }
+
   &__text,
   &__loader {
-    transition: color 0.3s ease;
+    transition: color 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   & &__text {
-    color: var(--l-button-text);
+    line-height: 24px;
+    font-weight: 500;
   }
 
   & &__loader {
-    color: var(--l-button-text);
     margin-right: 8px;
     flex-shrink: 0;
   }
 
   &:hover {
-    --l-button-text: #{$button-primary-text-hover};
+    // --l-button-text: #{$button-primary-text-hover};
     --l-button-background: #{$button-primary-bg-hover};
   }
 
   &:active {
-    --l-button-text: #{$button-primary-text-active};
-    --l-button-background: #{$button-primary-bg-active};
+    // --l-button-text: #{$button-primary-text-active};
+    // --l-button-background: #{$button-primary-bg-active};
+    transform: scale(0.96);
   }
 
   &:disabled {

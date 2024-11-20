@@ -16,21 +16,26 @@
     background-color: $dropdown-options-bg;
     box-shadow: $shadow;
     border-radius: $border-radius;
+    overflow: hidden;
   }
 
   &__option {
     cursor: pointer;
     padding: $space-s $space-xs;
     color: $text-primary;
-    transition: color 0.3s ease;
+    transition: color 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
     display: block;
     appearance: none;
     border: none;
     outline: none;
     background: none;
 
+    width: 100%;
+    text-align: start;
+
     &:hover {
       color: $text-secondary;
+      background: #efefef;
     }
 
     &_selected {

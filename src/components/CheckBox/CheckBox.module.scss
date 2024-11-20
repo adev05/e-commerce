@@ -16,8 +16,8 @@
   border-radius: $border-radius;
   cursor: pointer;
   transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease;
+    border-color 200ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    background-color 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
 
   & &__check {
     position: absolute;
@@ -28,8 +28,8 @@
     opacity: 0;
     color: var(--l-checkbox-check);
     transform:
-      color 0.3s ease,
-      opacity 0.3s ease;
+      color 200ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      opacity 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   &__controller {

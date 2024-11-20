@@ -8,6 +8,10 @@
   align-items: center;
   gap: $space-m;
 
+  &__button {
+    min-width: 180px;
+  }
+
   @media (min-width: 768px) {
     --l-columns: 1fr auto;
   }

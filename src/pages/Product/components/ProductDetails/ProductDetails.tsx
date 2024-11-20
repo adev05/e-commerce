@@ -31,7 +31,7 @@ const ProductDetails: React.FC<{ images: string[]; title: string; price: number;
 
         <div className={s['product__buttons-container']}>
           <Button>Buy now</Button>
-          <Button>Add to cart</Button>
+          <Button variant="secondary">Add to cart</Button>
         </div>
       </div>
     </div>

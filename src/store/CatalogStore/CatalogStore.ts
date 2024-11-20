@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { action, computed, IReactionDisposer, makeObservable, observable, reaction, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { LIMIT } from './config';
 import { apiUrls } from '@config/apiUrls';
 import { Meta } from '@utils/meta';
@@ -74,14 +74,6 @@ export default class CatalogStore {
       (page) => {
         console.log('setCurrentPage reaction', page);
         Promise.all([this.getProducts(), this.getLength()]);
-      },
-    );
-
-    reaction(
-      () => this.categoryId,
-      (included) => {
-        console.log('categoryId reaction', included);
-        // Promise.all([this.getProducts(), this.getLength()]);
       },
     );
   }

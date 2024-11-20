@@ -73,11 +73,15 @@ const Paginator: React.FC = observer(() => {
     }
   }, [currentPage, totalPages, setCurrentPage, searchParams]);
 
+  if (totalPages === 1) {
+    return null;
+  }
+
   return (
     <nav>
       <ul className={s.paginator}>
         <li className={cn(s['paginator-item'], currentPage === 1 && s['page-item_disabled'])}>
-          <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          <Button onClick={handlePreviousPage} disabled={currentPage === 1} variant="secondary">
             &laquo;
           </Button>
         </li>
@@ -90,14 +94,19 @@ const Paginator: React.FC = observer(() => {
             )}
           >
             {typeof number === 'number' ? (
-              <Button onClick={() => handleCurrentPage(number)}>{number}</Button>
+              <Button
+                onClick={() => handleCurrentPage(number)}
+                variant={number === currentPage ? 'primary' : 'secondary'}
+              >
+                {number}
+              </Button>
             ) : (
               <span className="page-link">...</span>
             )}
           </li>
         ))}
         <li className={cn(s['paginator-item'], currentPage === totalPages && s['page-item_disabled'])}>
-          <Button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          <Button onClick={handleNextPage} disabled={currentPage === totalPages} variant="secondary">
             &raquo;
           </Button>
         </li>
