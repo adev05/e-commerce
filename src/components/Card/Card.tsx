@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import s from './Card.module.scss';
 import Text from '../Text';
-import Button from '@components/Button';
+import imageNotFound from '@assets/images/image-not-found.svg';
 
 export type CardProps = {
   /** Дополнительный classname */
@@ -33,10 +33,20 @@ const Card: React.FC<CardProps> = ({
   actionSlot,
   onClick,
 }) => {
+  const [imageSrc, setImageSrc] = React.useState(image);
+
+  const handleError = () => {
+    setImageSrc(imageNotFound);
+  };
+
   return (
     <div className={cn(s.card, className)} onClick={onClick}>
       <div className={s.card__header}>
-        {image ? <img className={s['card__header-src']} src={image} alt="card" /> : 'No image'}
+        {image ? (
+          <img className={s['card__header-src']} src={imageSrc} alt="card" onError={handleError} />
+        ) : (
+          <img src={imageNotFound} alt="card" />
+        )}
       </div>
 
       <div className={s.card__body}>
@@ -57,8 +67,7 @@ const Card: React.FC<CardProps> = ({
               {contentSlot}
             </Text>
           )} */}
-          {/* <div className={s.card__action}>{actionSlot}</div> */}
-          <Button className={s.card__action}>{contentSlot}</Button>
+          <div className={s.card__action}>{actionSlot}</div>
         </div>
       </div>
     </div>

@@ -9,6 +9,6 @@ export const navbarUrls = [
   },
   {
     name: 'About us',
-    path: '/about',
+    path: '/about-us',
   },
 ];

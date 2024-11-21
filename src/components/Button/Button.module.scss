@@ -12,6 +12,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 48px;
 
   &_primary {
     background-color: var(--l-button-background);

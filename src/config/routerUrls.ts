@@ -3,6 +3,10 @@ export const routerUrls = {
     mask: '/',
     create: () => '/',
   },
+  aboutUs: {
+    mask: '/about-us',
+    create: () => '/about-us',
+  },
   catalog: {
     mask: '/catalog',
     create: () => '/catalog',

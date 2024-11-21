@@ -43,6 +43,7 @@ module.exports = {
   output: {
     path: buildPath,
     filename: 'bundle.js',
+    publicPath: '/',
   },
   devtool: 'source-map',
   target: !isProd ? 'web' : 'browserslist',

@@ -2,7 +2,7 @@ import Card from '@components/Card';
 import Text from '@components/Text';
 import s from './ProductList.module.scss';
 import Button from '@components/Button';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { routerUrls } from '@config/routerUrls';
 import React from 'react';
 import { Meta } from '@utils/meta';
@@ -10,9 +10,11 @@ import { ProductItem } from '@store/models/Catalog';
 import { observer } from 'mobx-react-lite';
 import ProductListSkeleton from '../ProductListSkeleton';
 import { CatalogContext } from '@pages/Catalog';
+import AddToCartButton from '@components/AddToCartButton';
 
 const ProductList: React.FC = observer(() => {
   const { catalogStore } = React.useContext(CatalogContext);
+  const navigate = useNavigate();
 
   console.log('[Render]: ProductList', catalogStore);
 
@@ -42,16 +44,19 @@ const ProductList: React.FC = observer(() => {
           </Text>
         )}
         {catalogStore.list.map((product: ProductItem) => (
-          <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
-            <Card
-              captionSlot={product.category.name}
-              image={product.images[0]}
-              title={product.title}
-              subtitle={product.description}
-              contentSlot={`$${product.price}`}
-              actionSlot={<Button>Add to Cart</Button>}
-            />
-          </Link>
+          // <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
+
+          // </Link>
+          <Card
+            key={product.id}
+            captionSlot={product.category.name}
+            image={product.images[0]}
+            title={product.title}
+            subtitle={product.description}
+            contentSlot={`$${product.price}`}
+            onClick={() => navigate(routerUrls.productDetail.create(product.id))}
+            actionSlot={<AddToCartButton id={product.id} price={product.price} />}
+          />
         ))}
       </div>
     </div>

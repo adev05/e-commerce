@@ -1,0 +1,16 @@
+@use "@styles/variables" as *;
+
+.button {
+  // width: 100%;
+  &-full {
+    width: 100%;
+  }
+
+  &-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-xs;
+  }
+}
