@@ -46,7 +46,7 @@ const ProductList: React.FC<{ catalogStore: CatalogStore; paginatorStore: Pagina
           <Card
             key={product.id}
             captionSlot={product.category.name}
-            image={product.images[0]}
+            images={product.images}
             title={product.title}
             subtitle={product.description}
             contentSlot={`$${product.price}`}

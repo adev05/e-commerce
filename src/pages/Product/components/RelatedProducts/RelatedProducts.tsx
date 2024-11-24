@@ -18,7 +18,7 @@ const RelatedProducts: React.FC<{ products: ProductItem[] }> = ({ products }) =>
           <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
             <Card
               captionSlot={product.category.name}
-              image={product.images[0]}
+              images={product.images}
               title={product.title}
               subtitle={product.description}
               contentSlot={`$${product.price}`}

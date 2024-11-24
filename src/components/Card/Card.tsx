@@ -3,12 +3,13 @@ import cn from 'classnames';
 import s from './Card.module.scss';
 import Text from '../Text';
 import imageNotFound from '@assets/images/image-not-found.svg';
+import ImageCarousel from '@components/ImageCarousel';
 
 export type CardProps = {
   /** Дополнительный classname */
   className?: string;
   /** URL изображения */
-  image: string;
+  images: string[];
   /** Слот над заголовком */
   captionSlot?: React.ReactNode;
   /** Заголовок карточки */
@@ -25,7 +26,7 @@ export type CardProps = {
 
 const Card: React.FC<CardProps> = ({
   className,
-  image,
+  images,
   captionSlot,
   title,
   subtitle,
@@ -33,20 +34,10 @@ const Card: React.FC<CardProps> = ({
   actionSlot,
   onClick,
 }) => {
-  const [imageSrc, setImageSrc] = React.useState(image);
-
-  const handleError = () => {
-    setImageSrc(imageNotFound);
-  };
-
   return (
     <div className={cn(s.card, className)} onClick={onClick}>
       <div className={s.card__header}>
-        {image ? (
-          <img className={s['card__header-src']} src={imageSrc} alt="card" onError={handleError} />
-        ) : (
-          <img src={imageNotFound} alt="card" />
-        )}
+        <ImageCarousel images={images} className={s['card__header-src']} />
       </div>
 
       <div className={s.card__body}>

@@ -2,11 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Text from '@components/Text';
 import s from './Cart.module.scss';
-import CartStore from '@store/CartStore';
+import cartStore from '@store/CartStore';
 import CartItem from './components/CartItem';
 import CartSummary from './components/CartSummary';
-
-const cartStore = new CartStore();
 
 const Cart: React.FC = observer(() => {
     if (cartStore.items.length === 0) {

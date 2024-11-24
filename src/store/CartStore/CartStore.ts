@@ -5,7 +5,7 @@ const CART_STORAGE_KEY = 'cart_items';
 
 type PrivateFields = '_items';
 
-export default class CartStore {
+class CartStore {
     private _items: CartItem[] = [];
 
     constructor() {
@@ -84,3 +84,5 @@ export default class CartStore {
         this.saveToStorage();
     }
 }
+
+export default new CartStore();

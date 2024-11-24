@@ -4,6 +4,7 @@ import Text from '@components/Text';
 import Button from '@components/Button';
 import imageNotFound from '@assets/images/image-not-found.svg';
 import AddToCartButton from '@components/AddToCartButton';
+import ImageCarousel from '@components/ImageCarousel';
 
 const ProductDetails: React.FC<{
   id: number;
@@ -18,17 +19,9 @@ const ProductDetails: React.FC<{
   price,
   description,
 }) => {
-    const [imageSrc, setImageSrc] = React.useState(images[0]);
-    const handleError = () => {
-      setImageSrc(imageNotFound);
-    };
     return (
       <div className={s.product__container}>
-        {images.length ? (
-          <img src={imageSrc} alt="card-img" className={s.product__image} onError={handleError} />
-        ) : (
-          <img src={imageNotFound} alt="card-img" className={s.product__image} />
-        )}
+        <ImageCarousel images={images} className={s.product__image} />
         <div className={s.product__about}>
           {title && (
             <Text view="title" tag="h1" color="primary">

@@ -1,7 +1,7 @@
 import Button from '@components/Button';
 import React from 'react';
 import s from './AddToCartButton.module.scss';
-import CartStore from '@store/CartStore';
+import cartStore from '@store/CartStore';
 import { observer } from 'mobx-react-lite';
 
 interface AddToCartButtonProps {
@@ -10,8 +10,6 @@ interface AddToCartButtonProps {
   title: string;
   image: string;
 }
-
-const cartStore = new CartStore();
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = observer(({ id, price, title, image }) => {
   const cartItem = cartStore.items.find(item => item.id === id);

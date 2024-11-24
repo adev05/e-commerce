@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import CartStore from '@store/CartStore';
+import cartStore from '@store/CartStore';
 import { routerUrls } from '@config/routerUrls';
 import s from './CartIcon.module.scss';
 import BagIcon from '@components/Icons/BagIcon';
 
-const cartStore = new CartStore();
 
 const CartIcon: React.FC = observer(() => {
     return (
