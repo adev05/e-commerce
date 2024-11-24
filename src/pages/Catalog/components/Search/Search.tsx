@@ -5,46 +5,39 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PAGE, SEARCH } from '@store/CatalogStore';
 import { observer } from 'mobx-react-lite';
-import { CatalogContext } from '@pages/Catalog';
+import { action } from 'mobx';
+import SearchStore from '@store/SearchStore';
 
-const Search: React.FC = observer(() => {
+const Search: React.FC<{ searchStore: SearchStore }> = observer(({ searchStore }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { catalogStore } = React.useContext(CatalogContext);
-  const { search, setSearch } = catalogStore;
+  const searchValue = React.useMemo(() => searchParams.get(SEARCH) || '', [searchParams]);
 
-  console.log('[Render]: Search');
+  React.useEffect(action(() => {
+    if (searchStore.search !== searchValue) {
+      searchStore.setSearch(searchValue);
+    }
+  }), [searchValue, searchStore]);
 
-  React.useEffect(() => {
-    const searchValue = searchParams.get(SEARCH);
-    setSearch(searchValue);
-  }, [searchParams, setSearch]);
-
-  const searchSubmit = React.useCallback(
-    (e: React.FormEvent) => {
+  const handleSubmit = React.useCallback(
+    action((e: React.FormEvent) => {
       e.preventDefault();
-      console.log({ search });
-      if (search) {
-        searchParams.set(SEARCH, search);
+
+      if (searchStore.search) {
+        searchParams.set(SEARCH, searchStore.search);
       } else {
         searchParams.delete(SEARCH);
       }
       searchParams.delete(PAGE);
-
       setSearchParams(searchParams);
-
-      async function fetch() {
-        await catalogStore.getProducts();
-        await catalogStore.getLength();
-      }
-
-      fetch();
-    },
-    [catalogStore, search, searchParams, setSearchParams],
+    }),
+    [searchStore, searchParams, setSearchParams]
   );
 
+  console.log('[Render]: Search');
+
   return (
-    <form className={s.search} onSubmit={searchSubmit}>
-      <Input value={search || ''} onChange={setSearch} placeholder="Search product" />
+    <form className={s.search} onSubmit={handleSubmit}>
+      <Input value={searchStore.search} onChange={searchStore.setSearch} placeholder="Search product" />
       <Button type="submit" className={s.search__button}>
         Find now
       </Button>

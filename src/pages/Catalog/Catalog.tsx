@@ -3,49 +3,41 @@ import Main from './components/Main';
 import Filter from './components/Filter';
 import ProductList from './components/ProductList';
 import s from './Catalog.module.scss';
-import React, { createContext } from 'react';
-import { useLocalObservable } from 'mobx-react-lite';
-import CatalogStore from '@store/CatalogStore';
-import { useQueryParamsStoreInit } from '@store/RootStore/hooks/useQueryParamsStoreInit';
+import React from 'react';
+import { observer } from 'mobx-react-lite';
 import Paginator from '@components/Paginator';
+import CategoryStore from '@store/CategoryStore';
+import CatalogStore, { SEARCH } from '@store/CatalogStore';
+import { action } from 'mobx';
+import SearchStore from '@store/SearchStore';
+import { useSearchParams } from 'react-router-dom';
+import PaginatorStore from '@store/PaginatorStore';
 
-type CatalogContextType = {
-  catalogStore: CatalogStore;
-};
-
-export const CatalogContext = createContext({} as CatalogContextType);
-
-const Catalog: React.FC = () => {
+const Catalog: React.FC = observer(() => {
   console.log('[Render]: Catalog');
-  useQueryParamsStoreInit();
 
-  const catalogStore = useLocalObservable(() => new CatalogStore());
+  const catalogStore = React.useMemo(() => new CatalogStore(), []);
+  const categoryStore = React.useMemo(() => new CategoryStore(), []);
+  const searchStore = React.useMemo(() => new SearchStore(), []);
+  const paginatorStore = React.useMemo(() => new PaginatorStore(), []);
 
-  React.useEffect(() => {
-    async function fetch() {
-      await catalogStore.getCategories();
-      await catalogStore.getProducts();
-      await catalogStore.getLength();
-    }
+  const [searchParams] = useSearchParams();
+  const searchQuery = React.useMemo(() => searchParams.get(SEARCH) || '', [searchParams]);
 
-    fetch();
-  }, []);
-
-  const catalogContext = {
-    catalogStore,
-  };
+  React.useEffect(action(() => {
+    catalogStore.getProducts(searchQuery, categoryStore.categoryId, paginatorStore.offset);
+    paginatorStore.getLength(searchQuery, categoryStore.categoryId);
+  }), [searchQuery, categoryStore.categoryId, paginatorStore.currentPage]);
 
   return (
-    <CatalogContext.Provider value={catalogContext}>
-      <div className={s.catalog}>
-        <Main />
-        <Search />
-        <Filter />
-        <ProductList />
-        <Paginator />
-      </div>
-    </CatalogContext.Provider>
+    <div className={s.catalog}>
+      <Main />
+      <Search searchStore={searchStore} />
+      <Filter categoryStore={categoryStore} />
+      <ProductList catalogStore={catalogStore} paginatorStore={paginatorStore} />
+      <Paginator paginatorStore={paginatorStore} />
+    </div>
   );
-};
+});
 
-export default React.memo(Catalog);
+export default Catalog;

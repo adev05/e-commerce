@@ -3,7 +3,7 @@ import React from 'react';
 import s from './AboutUs.module.scss';
 import aboutBanner from '@assets/images/about-banner.png';
 
-const AboutUs: React.FC = () => {
+const AboutUs: React.FC = React.memo(() => {
   return (
     <main className={s.about}>
       <Text view="title" tag="h1" className={s.about__title}>
@@ -16,6 +16,6 @@ const AboutUs: React.FC = () => {
       <img src={aboutBanner} className={s.about__banner} />
     </main>
   );
-};
+});
 
 export default AboutUs;

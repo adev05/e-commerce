@@ -62,11 +62,6 @@ const Card: React.FC<CardProps> = ({
           {subtitle}
         </Text>
         <div className={s.card__footer}>
-          {/* {contentSlot && (
-            <Text view="p-18" tag="p" weight="bold" color="primary" className={s.card__content}>
-              {contentSlot}
-            </Text>
-          )} */}
           <div className={s.card__action}>{actionSlot}</div>
         </div>
       </div>

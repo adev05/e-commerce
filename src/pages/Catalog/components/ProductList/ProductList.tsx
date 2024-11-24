@@ -1,22 +1,19 @@
 import Card from '@components/Card';
 import Text from '@components/Text';
 import s from './ProductList.module.scss';
-import Button from '@components/Button';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { routerUrls } from '@config/routerUrls';
 import React from 'react';
 import { Meta } from '@utils/meta';
 import { ProductItem } from '@store/models/Catalog';
 import { observer } from 'mobx-react-lite';
 import ProductListSkeleton from '../ProductListSkeleton';
-import { CatalogContext } from '@pages/Catalog';
 import AddToCartButton from '@components/AddToCartButton';
+import CatalogStore from '@store/CatalogStore';
+import PaginatorStore from '@store/PaginatorStore';
 
-const ProductList: React.FC = observer(() => {
-  const { catalogStore } = React.useContext(CatalogContext);
+const ProductList: React.FC<{ catalogStore: CatalogStore; paginatorStore: PaginatorStore }> = observer(({ catalogStore, paginatorStore }) => {
   const navigate = useNavigate();
-
-  console.log('[Render]: ProductList', catalogStore);
 
   if (catalogStore.meta === Meta.loading) {
     return <ProductListSkeleton />;
@@ -26,6 +23,8 @@ const ProductList: React.FC = observer(() => {
     return <Navigate to={routerUrls.notFound.create()} />;
   }
 
+  console.log('[Render]: ProductList');
+
   return (
     <div className={s['product-list']}>
       <div className={s['product-list__title']}>
@@ -33,7 +32,7 @@ const ProductList: React.FC = observer(() => {
           Total Product
         </Text>
         <Text view="p-20" tag="h4" weight="bold" color="accent">
-          {catalogStore.length}
+          {paginatorStore.totalItems}
         </Text>
       </div>
 
@@ -44,9 +43,6 @@ const ProductList: React.FC = observer(() => {
           </Text>
         )}
         {catalogStore.list.map((product: ProductItem) => (
-          // <Link to={routerUrls.productDetail.create(product.id)} key={product.id}>
-
-          // </Link>
           <Card
             key={product.id}
             captionSlot={product.category.name}

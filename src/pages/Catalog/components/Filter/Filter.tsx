@@ -2,34 +2,41 @@ import MultiDropdown, { Option } from '@components/MultiDropdown';
 import s from './Filter.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import React from 'react';
-import { toJS } from 'mobx';
+import { action, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { CatalogContext } from '@pages/Catalog';
 import { CATEGORY_ID, PAGE } from '@store/CatalogStore';
+import CategoryStore from '@store/CategoryStore';
 
-const Filter: React.FC = observer(() => {
+const Filter: React.FC<{ categoryStore: CategoryStore }> = observer(({ categoryStore }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { catalogStore } = React.useContext(CatalogContext);
-  const { options, setIncluded, setCategoryId } = catalogStore;
-  const value = toJS(catalogStore.included);
-  const onChange = catalogStore.setIncluded;
+
+  const value = toJS(categoryStore.included);
   const getTitle = (options: Option[]) => (options.length === 0 ? 'Filter' : options[0].value);
 
   console.log('[Render]: Filter');
 
-  React.useEffect(() => {
-    const categoryId = searchParams.get('categoryId');
-    setCategoryId(categoryId);
-    if (categoryId) {
-      const selectedOption = options.filter((option) => option.key === categoryId);
-      if (selectedOption.length > 0) {
-        onChange(selectedOption);
-        setIncluded(selectedOption);
-      }
-    }
-  }, [searchParams, options, onChange, setCategoryId, setIncluded]);
+  React.useEffect(
+    action(() => {
+      categoryStore.getCategories();
+    }),
+    [],
+  );
 
-  const handleFilterChange = (selectedOption: Option[]) => {
+  React.useEffect(
+    action(() => {
+      const categoryId = searchParams.get(CATEGORY_ID);
+      categoryStore.setCategoryId(categoryId);
+      if (categoryId) {
+        const selectedOption = categoryStore.options.filter((option) => option.key === categoryId);
+        if (selectedOption.length > 0) {
+          categoryStore.setIncluded(selectedOption);
+        }
+      }
+    }),
+    [searchParams, categoryStore.options, categoryStore.setCategoryId, categoryStore.setIncluded],
+  );
+
+  const handleFilterChange = React.useCallback((selectedOption: Option[]) => {
     if (selectedOption.length > 0) {
       searchParams.set(CATEGORY_ID, selectedOption[0].key);
       searchParams.delete(PAGE);
@@ -37,24 +44,14 @@ const Filter: React.FC = observer(() => {
       searchParams.delete(CATEGORY_ID);
     }
     setSearchParams(searchParams);
-
-    setIncluded(selectedOption);
-    setCategoryId(selectedOption.length > 0 ? selectedOption[0].key : null);
-
-    async function fetch() {
-      await catalogStore.getProducts();
-      await catalogStore.getLength();
-    }
-
-    fetch();
-
-    onChange(selectedOption);
-  };
+    categoryStore.setIncluded(selectedOption);
+    categoryStore.setCategoryId(selectedOption.length > 0 ? selectedOption[0].key : null);
+  }, [searchParams, categoryStore, setSearchParams]);
 
   return (
     <MultiDropdown
       className={s.filter}
-      options={options}
+      options={categoryStore.options}
       value={value}
       onChange={handleFilterChange}
       getTitle={getTitle}

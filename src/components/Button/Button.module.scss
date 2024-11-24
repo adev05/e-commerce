@@ -40,13 +40,10 @@
   }
 
   &:hover {
-    // --l-button-text: #{$button-primary-text-hover};
     --l-button-background: #{$button-primary-bg-hover};
   }
 
   &:active {
-    // --l-button-text: #{$button-primary-text-active};
-    // --l-button-background: #{$button-primary-bg-active};
     transform: scale(0.96);
   }
 

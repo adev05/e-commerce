@@ -3,7 +3,7 @@ import s from './Home.module.scss';
 import mainBanner from '@assets/images/main-banner.png';
 import Text from '@components/Text';
 
-const Home: React.FC = () => {
+const Home: React.FC = React.memo(() => {
   return (
     <main className={s.home}>
       <div className={s.home__content}>
@@ -20,6 +20,6 @@ const Home: React.FC = () => {
       <img src={mainBanner} className={s.home__banner} />
     </main>
   );
-};
+});
 
 export default Home;

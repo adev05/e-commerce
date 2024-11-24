@@ -7,7 +7,6 @@
   transition: box-shadow 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
   border-radius: $card-border-radius;
   overflow: hidden;
-  // border: 1px solid $card-border;
   box-shadow: 0 0 0 1px $card-border;
 
   &__header {
@@ -54,8 +53,6 @@
   }
 
   &__action {
-    // margin-left: auto;
-    // padding-left: $space-xxs;
     width: 100%;
   }
 

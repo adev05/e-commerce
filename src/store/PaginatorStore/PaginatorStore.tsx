@@ -1,80 +1,94 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import { SetURLSearchParams } from 'react-router-dom';
-import { LIMIT, PAGE } from '@store/CatalogStore';
+import { apiUrls } from '@config/apiUrls';
+import { LIMIT } from '@store/CatalogStore';
+import { Meta } from '@utils/meta';
+import axios from 'axios';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
-type PrivateFields = '_curPage' | '_totalPages';
+type PrivateFields = '_currentPage' | '_totalPages' | '_totalItems' | '_meta';
 
 export default class PaginatorStore {
-  private _curPage: number;
-  private _totalPages: number = 0;
-  private _pagesToShow: number;
-  private _searchParams: URLSearchParams;
-  private _setSearchParams: SetURLSearchParams;
+  private _currentPage: number = 1;
+  private _totalPages: number = 1;
+  private _totalItems: number = 0;
+  private _meta: Meta = Meta.initial;
 
-  constructor(
-    searchParams: URLSearchParams,
-    setSearchParams: SetURLSearchParams,
-    itemsLength: number,
-    pagesToShow: number = 3,
-  ) {
+  constructor() {
     makeObservable<PaginatorStore, PrivateFields>(this, {
-      _curPage: observable,
-      _totalPages: observable,
-      curPage: computed,
+      _currentPage: observable.ref,
+      _totalPages: observable.ref,
+      _totalItems: observable.ref,
+      _meta: observable.ref,
+
+      currentPage: computed,
       totalPages: computed,
-      startEndPages: computed,
-      goToPage: action,
-      nextPage: action.bound,
-      prevPage: action.bound,
+      totalItems: computed,
+      offset: computed,
+      meta: computed,
+
+      setCurrentPage: action.bound,
+      setTotalItems: action.bound,
+
+      getLength: action.bound,
     });
-    this._curPage = parseInt(searchParams.get(PAGE) || '1');
-    this._totalPages = Math.ceil(itemsLength / LIMIT);
-    this._pagesToShow = pagesToShow;
-    this._searchParams = searchParams;
-    this._setSearchParams = setSearchParams;
   }
 
-  get curPage(): number {
-    return this._curPage;
+  get currentPage(): number {
+    return this._currentPage;
   }
 
   get totalPages(): number {
     return this._totalPages;
   }
 
-  get startEndPages(): { startPage: number; endPage: number } {
-    let startPage = this._curPage - Math.floor(this._pagesToShow / 2);
-    let endPage = this._curPage + Math.floor(this._pagesToShow / 2);
-
-    if (startPage <= 0) {
-      startPage = 1;
-      endPage = Math.min(this._pagesToShow, this._totalPages);
-    }
-
-    if (endPage > this._totalPages) {
-      endPage = this._totalPages;
-      startPage = Math.max(this._totalPages - this._pagesToShow + 1, 1);
-    }
-
-    return { startPage: startPage, endPage: endPage };
+  get totalItems(): number {
+    return this._totalItems;
   }
 
-  goToPage(page: number): void {
-    this._searchParams.set(PAGE, String(page));
-    this._setSearchParams(this._searchParams);
+  get offset(): number {
+    return LIMIT * (this._currentPage - 1);
   }
 
-  prevPage(): void {
-    if (this._curPage > 1) {
-      this.goToPage(this._curPage - 1);
+  get meta(): Meta {
+    return this._meta;
+  }
+
+  setCurrentPage(page: number) {
+    if (page === this._currentPage) return;
+    this._currentPage = page;
+  }
+
+  setTotalItems(total: number) {
+    this._totalItems = total;
+    this._totalPages = Math.ceil(total / LIMIT);
+  }
+
+  async getLength(search?: string | null, categoryId?: string | null) {
+    if (this._meta === Meta.loading) return;
+
+    this._meta = Meta.loading;
+    try {
+      const response = await axios({
+        url: `${apiUrls.withBaseUrl(apiUrls.products.list)}`,
+        params: {
+          offset: 0,
+          limit: 0,
+          title: search,
+          categoryId: categoryId,
+        },
+      });
+      runInAction(() => {
+        if (response.status === 200) {
+          this.setTotalItems(response.data.length);
+          this._meta = Meta.success;
+        } else {
+          this._meta = Meta.error;
+        }
+      });
+    } catch (error: unknown) {
+      this._meta = Meta.error;
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
-
-  nextPage(): void {
-    if (this._curPage < this._totalPages) {
-      this.goToPage(this._curPage + 1);
-    }
-  }
-
-  destroy(): void {}
 }
