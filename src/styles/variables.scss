@@ -63,3 +63,39 @@ $icon-accent: $brand;
 $dropdown-options-bg: #fff;
 
 $skeleton-background: #f8f8f8;
+
+$mobile: 480px;
+$tablet: 768px;
+$desktop-s: 1024px;
+$desktop-m: 1200px;
+$desktop-l: 1440px;
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin desktop-s {
+    @media (max-width: $desktop-s) {
+        @content;
+    }
+}
+
+@mixin desktop-m {
+    @media (max-width: $desktop-m) {
+        @content;
+    }
+}
+
+@mixin desktop-l {
+    @media (max-width: $desktop-l) {
+        @content;
+    }
+}

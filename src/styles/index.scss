@@ -11,10 +11,6 @@ body {
   min-height: 100svh;
 }
 
-body {
-  scrollbar-gutter: stable;
-}
-
 * {
   box-sizing: border-box;
   text-decoration: none;
@@ -36,9 +32,9 @@ pre {
 @media (min-width: 768px) {
   // $padding-x: 100px;
 }
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+
+@media (min-width: 1024px) {}
+
+@media (min-width: 1280px) {}
+
+@media (min-width: 1536px) {}

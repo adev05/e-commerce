@@ -1,14 +1,20 @@
 @use '@styles/variables' as *;
 
 .summary {
-    padding: $space-l;
     background: var(--l-card-bg);
     border-radius: $border-radius;
     box-shadow: 0 0 0 1px var(--l-card-border);
+    padding: $space-l;
     height: fit-content;
 
+    @include tablet {
+        position: sticky;
+        bottom: $space-m;
+        margin: 0 (-$space-m);
+        border-radius: $border-radius $border-radius 0 0;
+    }
+
     &__content {
-        margin-top: $space-l;
         display: flex;
         flex-direction: column;
         gap: $space-m;
@@ -20,8 +26,8 @@
         align-items: center;
     }
 
-    &__checkout {
-        margin-top: $space-l;
+    &__button {
+        margin-top: $space-m;
         width: 100%;
     }
 }

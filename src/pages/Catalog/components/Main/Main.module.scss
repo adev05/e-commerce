@@ -1,7 +1,7 @@
 @use "@styles/variables" as *;
 
 .main {
-  --l-margin-y: 32px;
+  --l-margin-y: 64px;
 
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
   text-align: center;
   margin: var(--l-margin-y) auto;
 
-  @media (min-width: 768px) {
-    --l-margin-y: 64px;
+  @include tablet {
+    --l-margin-y: 32px;
   }
 }

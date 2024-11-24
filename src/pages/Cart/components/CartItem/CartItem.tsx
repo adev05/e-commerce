@@ -3,6 +3,8 @@ import { CartItem as CartItemType } from '@store/CartStore/types';
 import Text from '@components/Text';
 import Button from '@components/Button';
 import s from './CartItem.module.scss';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 interface CartItemProps {
     item: CartItemType;
@@ -10,10 +12,18 @@ interface CartItemProps {
     onRemove: () => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove }) => {
+const CartItem: React.FC<CartItemProps> = observer(({ item, onUpdateQuantity, onRemove }) => {
+    const navigate = useNavigate();
+
+    const productId = React.useMemo(() => item.id, [item.id]);
+
+    const handleProductClick = React.useCallback(() => {
+        navigate(`/product/${productId}`);
+    }, [navigate, productId]);
+
     return (
         <div className={s.item}>
-            <img src={item.image} alt={item.title} className={s.item__image} />
+            <img src={item.image} alt={item.title} className={s.item__image} onClick={handleProductClick} />
             <div className={s.item__content}>
                 <Text view="p-20" tag="h3">{item.title}</Text>
                 <div className={s.item__actions}>
@@ -40,6 +50,6 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove })
             </div>
         </div>
     );
-};
+});
 
 export default CartItem;

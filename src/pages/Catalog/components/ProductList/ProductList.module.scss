@@ -22,12 +22,15 @@
   @media (min-width: 768px) {
     --l-columns-count: 2;
   }
+
   @media (min-width: 1024px) {
     --l-columns-count: 3;
   }
+
   @media (min-width: 1280px) {
     --l-columns-count: 4;
   }
+
   @media (min-width: 1536px) {
     --l-columns-count: 5;
   }

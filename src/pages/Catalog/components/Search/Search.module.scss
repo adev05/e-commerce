@@ -1,7 +1,7 @@
 @use "@styles/variables" as *;
 
 .search {
-  --l-columns: 1fr;
+  --l-columns: 1fr auto;
 
   display: grid;
   grid-template-columns: var(--l-columns);
@@ -12,7 +12,7 @@
     min-width: 180px;
   }
 
-  @media (min-width: 768px) {
-    --l-columns: 1fr auto;
+  @include tablet {
+    --l-columns: 1fr;
   }
 }

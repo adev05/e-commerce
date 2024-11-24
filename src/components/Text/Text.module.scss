@@ -1,11 +1,11 @@
 @use "@styles/variables" as *;
 
 .text {
-  --l-title-font-size: 32px;
-  --l-p-20-font-size: 16px;
-  --l-p-18-font-size: 14px;
-  --l-p-16-font-size: 12px;
-  --l-p-14-font-size: 10px;
+  --l-title-font-size: 44px;
+  --l-p-20-font-size: 20px;
+  --l-p-18-font-size: 18px;
+  --l-p-16-font-size: 16px;
+  --l-p-14-font-size: 14px;
 
   font-family: "Roboto", sans-serif;
   font-weight: 400;
@@ -82,11 +82,11 @@
     -webkit-box-orient: vertical;
   }
 
-  @media (min-width: 768px) {
-    --l-title-font-size: 44px;
-    --l-p-20-font-size: 20px;
-    --l-p-18-font-size: 18px;
-    --l-p-16-font-size: 16px;
-    --l-p-14-font-size: 14px;
+  @include tablet {
+    --l-title-font-size: 32px;
+    --l-p-20-font-size: 16px;
+    --l-p-18-font-size: 14px;
+    --l-p-16-font-size: 12px;
+    --l-p-14-font-size: 10px;
   }
 }

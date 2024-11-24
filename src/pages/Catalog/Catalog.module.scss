@@ -1,14 +1,14 @@
 @use "@styles/variables" as *;
 
 .catalog {
-  --l-padding-x: 16px;
+  --l-padding-x: 48px;
 
   padding: 0 var(--l-padding-x);
 
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 768px) {
-    --l-padding-x: 48px;
+  @include tablet {
+    --l-padding-x: 16px;
   }
 }

@@ -1,7 +1,9 @@
 @use "@styles/variables" as *;
 
 .home {
-  --l-banner-width: 100%;
+  --l-banner-width: 80%;
+  --l-padding-x: 48px;
+
   padding: 0 var(--l-padding-x);
   text-align: center;
   height: calc(100svh - 70px);
@@ -30,7 +32,8 @@
     border-radius: 16px;
   }
 
-  @media (min-width: 768px) {
-    --l-banner-width: 80%;
+  @include tablet {
+    --l-banner-width: 100%;
+    --l-padding-x: 16px;
   }
 }
