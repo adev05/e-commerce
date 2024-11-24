@@ -37,6 +37,7 @@ const Product: React.FC = observer(() => {
 
       {productStore.product && (
         <ProductDetails
+          id={productStore.product.id}
           images={productStore.product?.images}
           title={productStore.product?.title}
           price={productStore.product?.price}

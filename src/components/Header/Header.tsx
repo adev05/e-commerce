@@ -4,6 +4,7 @@ import BagIcon from '../Icons/BagIcon';
 import s from './Header.module.scss';
 import HeartIcon from '../Icons/HeartIcon';
 import React from 'react';
+import CartIcon from '@pages/Cart/components/CartIcon/CartIcon';
 
 const Header: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const Header: React.FC = () => {
       <Logotype />
       <Navbar />
       <div className={s.header__icons}>
-        <BagIcon width={24} height={24} />
+        <CartIcon />
         <HeartIcon width={24} height={24} />
       </div>
     </header>

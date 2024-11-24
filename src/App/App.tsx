@@ -7,6 +7,7 @@ import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import React from 'react';
 import AboutUs from '@pages/AboutUs';
+import Cart from '@pages/Cart';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Route path={routerUrls.aboutUs.mask} element={<AboutUs />} />
         <Route path={routerUrls.catalog.mask} element={<Catalog />} />
         <Route path={routerUrls.productDetail.mask} element={<Product />} />
+        <Route path={routerUrls.cart.mask} element={<Cart />} />
         <Route path={routerUrls.notFound.mask} element={<NotFound />} />
         <Route path="*" element={<Navigate to={routerUrls.notFound.create()} replace />} />
       </Routes>

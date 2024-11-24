@@ -51,7 +51,7 @@ const ProductList: React.FC<{ catalogStore: CatalogStore; paginatorStore: Pagina
             subtitle={product.description}
             contentSlot={`$${product.price}`}
             onClick={() => navigate(routerUrls.productDetail.create(product.id))}
-            actionSlot={<AddToCartButton id={product.id} price={product.price} />}
+            actionSlot={<AddToCartButton id={product.id} price={product.price} title={product.title} image={product.images[0]} />}
           />
         ))}
       </div>

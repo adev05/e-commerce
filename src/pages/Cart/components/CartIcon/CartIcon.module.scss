@@ -1,0 +1,21 @@
+@use '@styles/variables' as *;
+
+.cart {
+    position: relative;
+    color: inherit;
+
+    &__badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: $brand;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

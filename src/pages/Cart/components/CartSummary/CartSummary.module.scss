@@ -1,0 +1,27 @@
+@use '@styles/variables' as *;
+
+.summary {
+    padding: $space-l;
+    background: var(--l-card-bg);
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 1px var(--l-card-border);
+    height: fit-content;
+
+    &__content {
+        margin-top: $space-l;
+        display: flex;
+        flex-direction: column;
+        gap: $space-m;
+    }
+
+    &__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__checkout {
+        margin-top: $space-l;
+        width: 100%;
+    }
+}

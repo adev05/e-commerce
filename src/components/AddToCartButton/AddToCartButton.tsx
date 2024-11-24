@@ -1,20 +1,49 @@
 import Button from '@components/Button';
 import React from 'react';
 import s from './AddToCartButton.module.scss';
+import CartStore from '@store/CartStore';
+import { observer } from 'mobx-react-lite';
 
-const AddToCartButton: React.FC<{ id: number; price: number }> = ({ id, price }) => {
-  const [clicked, setClicked] = React.useState(false);
-  const [amount, setAmount] = React.useState(1);
-  return clicked ? (
+interface AddToCartButtonProps {
+  id: number;
+  price: number;
+  title: string;
+  image: string;
+}
+
+const cartStore = new CartStore();
+
+const AddToCartButton: React.FC<AddToCartButtonProps> = observer(({ id, price, title, image }) => {
+  const cartItem = cartStore.items.find(item => item.id === id);
+  const quantity = cartItem?.quantity || 0;
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cartStore.addItem({ id, price, title, image });
+  };
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (quantity > 0) {
+      cartStore.updateQuantity(id, quantity - 1);
+    }
+  };
+
+  const handleIncrease = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (quantity < 10) {
+      cartStore.updateQuantity(id, quantity + 1);
+    }
+  };
+
+  return quantity > 0 ? (
     <div className={s['button-container']}>
       <Button
         className={s.button}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (amount > 1) setAmount((currentAmount) => currentAmount - 1);
-          else setClicked(false);
-        }}
+        onClick={handleRemove}
         variant="secondary"
       >
         -
@@ -27,15 +56,11 @@ const AddToCartButton: React.FC<{ id: number; price: number }> = ({ id, price })
         }}
         variant="secondary"
       >
-        {amount} x {price}$
+        {quantity} x {price}$
       </Button>
       <Button
         className={s.button}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (amount < 10) setAmount((currentAmount) => currentAmount + 1);
-        }}
+        onClick={handleIncrease}
         variant="secondary"
       >
         +
@@ -44,14 +69,11 @@ const AddToCartButton: React.FC<{ id: number; price: number }> = ({ id, price })
   ) : (
     <Button
       className={s['button-full']}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setClicked(true);
-      }}
+      onClick={handleAdd}
     >
       {price}$
     </Button>
   );
-};
+});
+
 export default AddToCartButton;
