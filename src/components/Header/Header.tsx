@@ -23,7 +23,7 @@ const Header: React.FC = () => {
         <div className={s.header__burger}>
           <Bars3Icon onClick={() => setIsMenuOpen(!isMenuOpen)} />
         </div>
-        <HeartIcon />
+        {/* <HeartIcon /> */}
         <CartIcon />
       </div>
     </header>

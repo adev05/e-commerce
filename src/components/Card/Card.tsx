@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 import s from './Card.module.scss';
 import Text from '../Text';
-import imageNotFound from '@assets/images/image-not-found.svg';
 import ImageCarousel from '@components/ImageCarousel';
 
 export type CardProps = {

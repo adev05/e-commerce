@@ -15,6 +15,10 @@ export const routerUrls = {
     mask: '/product/:id',
     create: (id: number) => `/product/${id}`,
   },
+  categories: {
+    mask: '/categories',
+    create: () => '/categories',
+  },
   cart: {
     mask: '/cart',
     create: () => '/cart',

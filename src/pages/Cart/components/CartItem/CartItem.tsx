@@ -26,6 +26,7 @@ const CartItem: React.FC<CartItemProps> = observer(({ item, onUpdateQuantity, on
             <img src={item.image} alt={item.title} className={s.item__image} onClick={handleProductClick} />
             <div className={s.item__content}>
                 <Text view="p-20" tag="h3">{item.title}</Text>
+                <Text view="p-20" tag="span" weight="bold">${item.price * item.quantity}</Text>
                 <div className={s.item__actions}>
                     <div className={s.item__quantity}>
                         <Button
@@ -44,9 +45,9 @@ const CartItem: React.FC<CartItemProps> = observer(({ item, onUpdateQuantity, on
                             +
                         </Button>
                     </div>
-                    <Text view="p-20" tag="span" weight="bold">${item.price * item.quantity}</Text>
-                    <Button variant="secondary" onClick={onRemove}>Remove</Button>
+
                 </div>
+                <Button variant="secondary" onClick={onRemove}>Remove</Button>
             </div>
         </div>
     );
