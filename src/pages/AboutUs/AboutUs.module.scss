@@ -1,0 +1,39 @@
+@use "@styles/variables" as *;
+
+.about {
+  --l-banner-width: 80%;
+  --l-padding-x: 48px;
+
+  padding: 0 var(--l-padding-x);
+  text-align: center;
+  height: calc(100svh - 70px);
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $space-l;
+  }
+
+  &__title {
+    text-align: center;
+  }
+
+  &__subtitle {
+    text-align: center;
+  }
+
+  &__banner {
+    width: var(--l-banner-width);
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  @include tablet {
+    --l-banner-width: 100%;
+    --l-padding-x: 16px;
+  }
+}

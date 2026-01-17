@@ -1,0 +1,12 @@
+@use "@styles/variables" as *;
+
+.related-products {
+  margin-top: $space-xl;
+
+  &__cards {
+    display: grid;
+    margin-top: $space-xl;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space-m;
+  }
+}

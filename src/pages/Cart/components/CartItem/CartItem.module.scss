@@ -1,0 +1,65 @@
+@use "@styles/variables" as *;
+
+.item {
+    display: flex;
+    gap: $space-l;
+    background: var(--l-card-bg);
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 1px var(--l-card-border);
+    // padding: $space-m;
+
+    @include tablet {
+        flex-direction: column;
+        gap: $space-m;
+    }
+
+    &__imageWrapper {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+
+    &__image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: $border-radius;
+
+        @include tablet {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: $space-m;
+    }
+
+    &__title {
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $text-accent;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $space-l;
+        margin-top: auto;
+    }
+
+    &__quantity {
+        display: flex;
+        align-items: center;
+        gap: $space-s;
+    }
+}

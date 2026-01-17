@@ -1,0 +1,15 @@
+@use "@styles/variables" as *;
+
+.product {
+  &__return-back {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+
+    background: transparent;
+    outline: none;
+    border: none;
+
+    cursor: pointer;
+  }
+}

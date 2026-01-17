@@ -1,8 +1,8 @@
-$border-radius: 8px;
+$border-radius: 12px;
 
-$brand: #518581;
-$brand-hover: #86aaa7;
-$brand-active: #487773;
+$brand: #0070ff;
+$brand-hover: #2b7fff;
+$brand-active: #0070ff;
 
 $space-xxl: 28px;
 $space-xl: 24px;
@@ -21,6 +21,8 @@ $button-primary-bg-disabled: #d9d9d9;
 $button-primary-text-disabled: #fff;
 $button-primary-bg-active: $brand-active;
 $button-primary-text-active: #fff;
+$button-secondary-bg: #edf6ff;
+$button-secondary-text: $brand;
 
 $text-primary: #000;
 $text-secondary: #afadb5;
@@ -29,7 +31,7 @@ $text-accent: $brand;
 $input-text: #000;
 $input-bg: #fff;
 $input-placeholder: rgba(15, 23, 42, 0.4);
-$input-border: rgb(15 23 42 / 0.1);
+$input-border: #dce3eb;
 $input-bg-focus: #fff;
 $input-border-focus: $brand;
 $input-text-focus: #000;
@@ -48,9 +50,9 @@ $checkbox-check-hover: $brand;
 $checkbox-check-disabled: rgba(#000, 0.2);
 
 $card-bg: #fff;
-$card-image-bg: #d9d9d9;
-$card-border: rgb(15 23 42 / 0.1);
-$card-border-radius: 12px;
+$card-image-bg: #fff;
+$card-border: #dce3eb;
+$card-border-radius: 16px;
 
 $shadow: 0px 4px 10px 0px rgba(#000, 0.25);
 
@@ -61,16 +63,39 @@ $icon-accent: $brand;
 $dropdown-options-bg: #fff;
 
 $skeleton-background: #f8f8f8;
-// $dropdown-options-rows: 3;
-// $dropdown-options-padding: $space-s;
-// $dropdown-min-width: 300px;
-// $pagination-button: rgba(21, 20, 17, 1);
-// $pagination-height: 42px;
-// $pagination-button-hover: $brand;
-// $pagination-button-disabled: rgba(175, 173, 181, 1);
-// $pagination-page-padding: 10px;
-// $pagination-page-text: $text-primary;
-// $pagination-page-text-weight: 500;
-// $pagination-page-text-active: white;
-// $pagination-page-text-hover: $brand;
-// $pagination-page-button-active: $brand;
+
+$mobile: 480px;
+$tablet: 768px;
+$desktop-s: 1024px;
+$desktop-m: 1200px;
+$desktop-l: 1440px;
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin desktop-s {
+    @media (max-width: $desktop-s) {
+        @content;
+    }
+}
+
+@mixin desktop-m {
+    @media (max-width: $desktop-m) {
+        @content;
+    }
+}
+
+@mixin desktop-l {
+    @media (max-width: $desktop-l) {
+        @content;
+    }
+}

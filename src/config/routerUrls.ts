@@ -3,6 +3,10 @@ export const routerUrls = {
     mask: '/',
     create: () => '/',
   },
+  aboutUs: {
+    mask: '/about-us',
+    create: () => '/about-us',
+  },
   catalog: {
     mask: '/catalog',
     create: () => '/catalog',
@@ -10,6 +14,14 @@ export const routerUrls = {
   productDetail: {
     mask: '/product/:id',
     create: (id: number) => `/product/${id}`,
+  },
+  categories: {
+    mask: '/categories',
+    create: () => '/categories',
+  },
+  cart: {
+    mask: '/cart',
+    create: () => '/cart',
   },
   notFound: {
     mask: '/not-found',

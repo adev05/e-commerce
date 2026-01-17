@@ -1,0 +1,66 @@
+@use "@styles/variables" as *;
+
+.product {
+  &__container {
+    padding-top: $space-l;
+
+    display: grid;
+    grid-template-columns: var(--l-container-columns);
+    gap: $space-xl;
+  }
+
+  &__image {
+    width: 100%;
+
+    border-radius: $border-radius;
+  }
+
+  &__image-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    background: $skeleton-background;
+    border-radius: $border-radius;
+  }
+
+  &__about {
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+  }
+
+  &__price {
+    margin: $space-xl 0;
+  }
+
+  &__buttons-container {
+    display: grid;
+    grid-template-columns: var(--l-button-columns);
+    gap: $space-xl;
+  }
+
+  &-skeleton {
+    &__title {
+      width: 50%;
+      height: 48px;
+      background: $skeleton-background;
+
+      border-radius: $border-radius;
+    }
+
+    &__description {
+      width: 100%;
+      height: 20px;
+      background: $skeleton-background;
+
+      border-radius: $border-radius;
+    }
+
+    &__price {
+      width: 10%;
+      height: 48px;
+      background: $skeleton-background;
+
+      border-radius: $border-radius;
+    }
+  }
+}

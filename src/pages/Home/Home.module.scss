@@ -1,24 +1,39 @@
-@use "styles/variables" as *;
+@use "@styles/variables" as *;
 
 .home {
-  --l-padding-x: 16px;
+  --l-banner-width: 80%;
+  --l-padding-x: 48px;
+
   padding: 0 var(--l-padding-x);
+  text-align: center;
+  height: calc(100svh - 70px);
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $space-l;
+  }
 
   &__title {
-    padding: 48px 0;
-    text-transform: uppercase;
     text-align: center;
-    text-wrap: nowrap;
+  }
+
+  &__subtitle {
+    text-align: center;
   }
 
   &__banner {
-    width: 100%;
-    height: calc(100svh - 70px - 16px);
+    width: var(--l-banner-width);
     object-fit: cover;
     border-radius: 16px;
   }
 
-  @media (min-width: 768px) {
-    --l-padding-x: 48px;
+  @include tablet {
+    --l-banner-width: 100%;
+    --l-padding-x: 16px;
   }
 }

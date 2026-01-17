@@ -1,0 +1,42 @@
+@use '@styles/variables' as *;
+
+.cart {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $space-xl;
+
+    @include tablet {
+        padding: $space-l;
+    }
+
+    @include mobile {
+        padding: $space-m;
+    }
+
+    &__content {
+        margin-top: $space-xl;
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: $space-xl;
+
+        @include desktop-s {
+            grid-template-columns: 1fr 250px;
+            gap: $space-l;
+        }
+
+        @include tablet {
+            grid-template-columns: 1fr;
+            gap: $space-xl;
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: $space-l;
+
+        @include tablet {
+            gap: $space-m;
+        }
+    }
+}

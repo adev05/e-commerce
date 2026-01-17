@@ -1,0 +1,34 @@
+@use '@styles/variables' as *;
+
+.summary {
+    background: var(--l-card-bg);
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 1px var(--l-card-border);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: $space-m;
+
+    @include tablet {
+        position: sticky;
+        bottom: $space-m;
+        border-radius: $border-radius $border-radius 0 0;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: $space-m;
+    }
+
+    &__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__button {
+        margin-top: $space-m;
+        width: 100%;
+    }
+}

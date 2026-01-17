@@ -10,10 +10,7 @@ const CardSkeleton: React.FC = () => {
         <div className={s['card-skeleton__caption']}></div>
         <div className={s['card-skeleton__title']}></div>
         <div className={s['card-skeleton__subtitle']}></div>
-        <div className={s['card-skeleton__footer']}>
-          <div className={s['card-skeleton__content']}></div>
-          <div className={s['card-skeleton__action']}></div>
-        </div>
+        <div className={s['card-skeleton__action']}></div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-@use "styles/variables" as *;
+@use "@styles/variables" as *;
 
 .input {
   --l-input-text: #{$input-text};
@@ -6,17 +6,16 @@
   --l-input-border: #{$input-border};
 
   width: 100%;
-  height: 52px;
   display: flex;
   align-items: center;
-  padding: $space-xs $space-xs;
+  padding: $space-xs $space-s;
   background: var(--l-input-bg);
-  border: 1px solid var(--l-input-border);
   border-radius: $border-radius;
+  box-shadow: inset 0 0 0 1px var(--l-input-border);
   transition:
-    border-color 0.3s ease,
-    color 0.3 ease,
-    background-color 0.3 ease;
+    border-color 200ms ease,
+    color 200ms ease,
+    background-color 200ms ease;
 
   &__field {
     padding: 0;
@@ -24,20 +23,32 @@
     flex-grow: 1;
     height: 100%;
     outline: none;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     appearance: none;
     border: none;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 24px;
     font-weight: 400;
     color: var(--l-input-text);
-    transition: color 0.3 ease;
+    transition: color 200ms ease;
     background: none;
+    height: 24px;
 
     &::placeholder {
+      transition: color 200ms ease;
       color: $input-placeholder;
       opacity: 1;
     }
+
+    &:hover:not(:focus) {
+      &::placeholder {
+        color: #768694;
+      }
+    }
+  }
+
+  &:hover {
+    --l-input-border: #ccd5df;
   }
 
   &:focus-within {

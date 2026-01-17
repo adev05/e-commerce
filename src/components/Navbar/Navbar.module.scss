@@ -1,21 +1,27 @@
-@use "styles/variables" as *;
+@use "@styles/variables" as *;
 
 .navbar {
-  --l-display: none;
+  --l-display: flex;
 
   display: var(--l-display);
   align-items: center;
   gap: $space-xl;
 
-  &__item {
-    transition: color 0.3s ease;
-
+  a {
     &:hover {
-      color: $text-primary;
+      color: $text-accent;
     }
   }
 
-  @media (min-width: 768px) {
-    --l-display: flex;
+  @include tablet {
+    flex-direction: column;
+    align-items: center;
+    gap: $space-xl;
+    width: 100%;
+
+    a {
+      font-size: 24px;
+      text-align: center;
+    }
   }
 }

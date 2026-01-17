@@ -2,12 +2,13 @@ import React from 'react';
 import cn from 'classnames';
 import s from './Card.module.scss';
 import Text from '../Text';
+import ImageCarousel from '@components/ImageCarousel';
 
 export type CardProps = {
   /** Дополнительный classname */
   className?: string;
   /** URL изображения */
-  image: string;
+  images: string[];
   /** Слот над заголовком */
   captionSlot?: React.ReactNode;
   /** Заголовок карточки */
@@ -24,7 +25,7 @@ export type CardProps = {
 
 const Card: React.FC<CardProps> = ({
   className,
-  image,
+  images,
   captionSlot,
   title,
   subtitle,
@@ -35,7 +36,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className={cn(s.card, className)} onClick={onClick}>
       <div className={s.card__header}>
-        {image ? <img className={s['card__header-src']} src={image} alt="card" /> : 'No image'}
+        <ImageCarousel images={images} className={s['card__header-src']} />
       </div>
 
       <div className={s.card__body}>
@@ -51,11 +52,6 @@ const Card: React.FC<CardProps> = ({
           {subtitle}
         </Text>
         <div className={s.card__footer}>
-          {contentSlot && (
-            <Text view="p-18" tag="p" weight="bold" color="primary" className={s.card__content}>
-              {contentSlot}
-            </Text>
-          )}
           <div className={s.card__action}>{actionSlot}</div>
         </div>
       </div>

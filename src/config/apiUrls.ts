@@ -1,7 +1,11 @@
 export const apiUrls = {
   baseUrl: 'https://api.escuelajs.co/api/v1',
+  withBaseUrl: (url: string) => `${apiUrls.baseUrl}${url}`,
   products: {
-    list: (offset: number, limit: number) => `/products?offset=${offset}&limit=${limit}`,
+    list: `/products`,
     detail: (id: number) => `/products/${id}`,
+  },
+  categories: {
+    list: () => '/categories',
   },
 };

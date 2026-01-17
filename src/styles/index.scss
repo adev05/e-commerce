@@ -1,17 +1,14 @@
 @import "./Roboto/fonts.css";
-@import "./variables.scss";
+// @use "./variables.scss" as *;
 
 html,
 body {
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   min-width: 300px;
-}
-
-body {
-  scrollbar-gutter: stable;
+  min-height: 100svh;
 }
 
 * {
@@ -33,11 +30,11 @@ pre {
 }
 
 @media (min-width: 768px) {
-  $padding-x: 100px;
+  // $padding-x: 100px;
 }
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+
+@media (min-width: 1024px) {}
+
+@media (min-width: 1280px) {}
+
+@media (min-width: 1536px) {}

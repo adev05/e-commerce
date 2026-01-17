@@ -1,26 +1,63 @@
-@use "styles/variables" as *;
+@use "@styles/variables" as *;
 
 .header {
-  --l-padding-x: 16px;
+  --l-padding-x: 48px;
 
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: $space-s var(--l-padding-x);
   background: white;
-  gap: $space-m;
 
   &__icons {
     display: flex;
     align-items: center;
     gap: $space-m;
 
-    > * {
+    >* {
       cursor: pointer;
     }
   }
 
-  @media (min-width: 768px) {
-    --l-padding-x: 48px;
+  &__burger {
+    display: none;
+  }
+
+  &__navbar {
+    display: flex;
+  }
+
+  @include tablet {
+    --l-padding-x: 16px;
+
+    &__burger {
+      display: block;
+    }
+
+    &__navbar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      padding: $space-xl;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.95);
+
+      &_open {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
   }
 }

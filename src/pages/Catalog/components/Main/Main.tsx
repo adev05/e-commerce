@@ -1,7 +1,9 @@
-import Text from 'components/Text';
+import Text from '@components/Text';
 import s from './Main.module.scss';
+import React from 'react';
 
 const Main: React.FC = () => {
+  console.log('[Render]: Main');
   return (
     <div className={s.main}>
       <Text view="title" tag="h1">
@@ -15,4 +17,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default React.memo(Main);
